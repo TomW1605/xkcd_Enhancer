@@ -1,0 +1,14 @@
+{
+   "content_scripts": [ {
+      "js": [ "script.js" ],
+      "matches": [ "http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*" ],
+      "run_at": "document_end"
+   } ],
+   "description": "Adds features such as arrow key navigation, easy title text and a link to explain xkcd to all xkcd comics",
+   "icons": {
+      "128": "icon.png"
+   },
+   "manifest_version": 2,
+   "name": "xkcd Enhancer",
+   "version": "1.0"
+}
