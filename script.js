@@ -12,7 +12,9 @@ function checkNav(e) {
         self.location = comicNav[0].children[3].children[0].href;
     } else if (e.keyCode == '38') {
         self.location = comicNav[0].children[2].children[0].href;
-    } else {
+	} else if (e.keyCode == '32') {
+		self.location = comicNav[0].children[2].children[0].href;
+	} else {
 
     }
 }
