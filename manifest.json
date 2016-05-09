@@ -1,14 +1,26 @@
 {
+   "manifest_version": 2,
+   "name": "xkcd Enhancer",
+   "version": "1.0",
    "content_scripts": [ {
       "js": [ "script.js" ],
-      "matches": [ "http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*" ],
-      "run_at": "document_end"
+      "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"]
    } ],
    "description": "Adds features such as keyboard navigation, easy title text and added links to all xkcd comics",
    "icons": {
-      "128": "icon.png"
+      "128": "icon.png",
+      "48": "icon.png"
    },
-   "manifest_version": 2,
-   "name": "xkcd Enhancer",
-   "version": "1.0"
+   "applications": {
+      "gecko": {
+         "id": "xkcd@enhancer.com"
+      }
+   },
+   "permissions": [
+      "activeTab"
+   ],
+   "browser_action": {
+      "default_icon": "icon.png",
+      "default_title": "xkcd Enhancer"
+   }
 }
