@@ -33,12 +33,12 @@ document.addEventListener('load', function () {
 	};
 	var comic = document.getElementById("comic");
 	if (comic === null ) return;
-	if (window.lazyXKCD === undefined) {
-		window.lazyXKCD = true;
+	if (window.titleText === undefined) {
+		window.titleText = true;
 		var image = findComic(comic);
 		var paragraph = document.createElement("p");
 		paragraph.innerHTML = image.title;
-		paragraph.id = "lazyXKCDParagraph";
+		paragraph.id = "titleText";
 		var padding = "25px";
 		paragraph.style.paddingLeft = padding;
 		paragraph.style.paddingRight = padding;
