@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
    "name": "xkcd Enhancer",
-   "version": "1.0",
+   "version": "3.0",
    "content_scripts": [ {
       "js": [ "script.js" ],
       "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"]
