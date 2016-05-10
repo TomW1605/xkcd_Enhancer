@@ -1,9 +1,9 @@
-var badIDs = [1663, 1608, 1110, 1350, 1506, 1525, 1193]
+var badIDs = [1663, 1608, 1110, 1350, 1506, 1525, 1193];
 
 var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
 id = id.replace(/^([\s\S]*)(com\/)/g, '');
 id = id.replace(/(\/)([\s\S]*)$/g, '');
-console.log(id)
+console.log(id);
 id = parseInt(id)+1;
 
 if(!(badIDs.indexOf(id)>=0)) {
@@ -43,12 +43,14 @@ if(!(badIDs.indexOf(id)>=0)) {
             return null;
         };
         var comic = document.getElementById("comic");
-        if (comic === null) return;
+        if (comic === null) {
+            return;
+        }
         if (window.titleText === undefined) {
             window.titleText = true;
             var image = findComic(comic);
             var paragraph = document.createElement("p");
-            paragraph.innerHTML = image.title;
+            paragraph.innerHTML = 'Title text: '+image.title;
             paragraph.id = "titleText";
             var padding = "25px";
             paragraph.style.paddingLeft = padding;
