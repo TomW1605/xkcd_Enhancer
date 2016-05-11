@@ -2,12 +2,12 @@
    "manifest_version": 2,
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
-   "version": "4.0",
+   "version": "5.0",
    "background": {
       "scripts": ["background.js"]
    },
    "content_scripts": [ {
-      "js": ["script.js"],
+      "js": ["script.js", "popup.js"],
       "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"]
    } ],
    "description": "Adds features such as keyboard navigation, easy title text and added links to all xkcd comics",
@@ -16,10 +16,13 @@
       "48": "icon.png"
    },
    "permissions": [
-     "activeTab"
+      "activeTab",
+      "notifications",
+      "tabs"
    ],
    "browser_action": {
      "default_icon": "icon.png",
-     "default_title": "xkcd Enhancer"
+     "default_title": "xkcd Enhancer",
+      "default_popup": "popup.html"
    }
 }
