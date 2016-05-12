@@ -1,0 +1,31 @@
+/*Text styles the same as xkcd website*/
+body {
+    font-size: 16px;
+    font-variant: small-caps;
+    font-family: Lucida, Helvetica, sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.title {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.links {
+    text-align: center;
+    margin-bottom: 7px;
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    width:420px;
+    height:185px;
+    left:50%;
+    border-style: solid;
+    margin: 0;
+}
