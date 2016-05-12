@@ -3,12 +3,13 @@
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
    "version": "5.0",
+   "options_page": "popup/popup.html",
    "background": {
       "scripts": ["background.js"]
    },
    "content_scripts": [ {
-      "js": ["script.js", "popup.js"],
-      "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"]
+      "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"],
+      "js": ["script.js"]
    } ],
    "description": "Adds features such as keyboard navigation, easy title text and added links to all xkcd comics",
    "icons": {
@@ -17,12 +18,12 @@
    },
    "permissions": [
       "activeTab",
-      "notifications",
+      "storage",
       "tabs"
    ],
    "browser_action": {
      "default_icon": "icon.png",
      "default_title": "xkcd Enhancer",
-      "default_popup": "popup.html"
+      "default_popup": "popup/popup.html"
    }
 }
