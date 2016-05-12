@@ -21,10 +21,13 @@
       }
    },
    "permissions": [
-     "activeTab"
+      "activeTab",
+      "storage",
+      "tabs"
    ],
    "browser_action": {
      "default_icon": "icon.png",
-     "default_title": "xkcd Enhancer"
+     "default_title": "xkcd Enhancer",
+      "default_popup": "popup/popup.html"
    }
 }
