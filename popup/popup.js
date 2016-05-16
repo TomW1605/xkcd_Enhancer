@@ -5,6 +5,41 @@ function add(text) {
 
 var StorageArea = chrome.storage.local;
 
+function has(obj, value) {
+    for(var id in obj) {
+        if(obj[id] == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+StorageArea.get('history', function (data) {
+    StorageArea.get(null, function () {
+
+        var historyList = data['history'];
+
+        const latestId = (function () {
+            const refId = 1411;
+            const refTime = new Date(2014, 7, 22).getTime();
+
+            const daysSinceRef = (Date.now() - refTime) / (1000 * 60 * 60 * 24) | 0;
+
+            return refId + 3 / 7 * daysSinceRef | 0;
+        })();
+
+        var isNew = true;
+
+        while (isNew){
+            var random = 1 + Math.random() * (latestId - 1) | 0;
+            if(!has(historyList, random)){
+                document.getElementById('random').setAttribute('href', 'http://xkcd.com/'+random+'/');
+                isNew = false;
+            }
+        }
+    });
+});
+
 function retrieve(name) {
     StorageArea.get(null, function (data) {
         console.info(data[name]);

@@ -56,6 +56,7 @@ StorageArea.get('history', function (data) {
             var random = 1 + Math.random() * (latestId - 1) | 0;
             if(!has(historyList, random)){
                 document.querySelectorAll(".comicNav")[0].children[2].children[0].href = '/'+random+'/';
+                document.querySelectorAll(".comicNav")[1].children[2].children[0].href = '/'+random+'/';
                 isNew = false;
             }
         }
