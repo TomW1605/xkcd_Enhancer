@@ -30,7 +30,7 @@ StorageArea.get('history', function (data) {
             var historyList = [];
             historyList = historyList.concat(data['history']);
             if(!has(historyList, id)) {
-                if(historyList.length<30) {
+                if(historyList.length<100) {
                     historyList.push(id);
                     StorageArea.set({'history': historyList});
                 } else {
