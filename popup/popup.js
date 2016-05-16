@@ -5,23 +5,27 @@ function add(text) {
 
 var StorageArea = chrome.storage.local;
 
-function retreve(name) {
+function retrieve(name) {
     StorageArea.get(null, function (data) {
         console.info(data[name]);
         if(!data[name]){
             document.getElementById(name).removeAttribute("checked");
+            if(name=='keyboardNavigation'){
+                document.getElementById('arrowNavigation').disabled=true;
+            }
         }
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('loaded');
-    retreve('permanentLinkToggle');
-    retreve('imageLinkToggle');
-    retreve('explainLinkToggle');
-    retreve('Link3DToggle');
-    retreve('titleTextMover');
-    retreve('keyboardNavigation');
+    retrieve('permanentLinkToggle');
+    retrieve('imageLinkToggle');
+    retrieve('explainLinkToggle');
+    retrieve('Link3DToggle');
+    retrieve('titleTextMover');
+    retrieve('keyboardNavigation');
+    retrieve('arrowNavigation')
 });
 
 var permanentLinkToggle;
@@ -105,13 +109,30 @@ function keyboardNavigationToggled() {
     if (!checkbox) {
         add('<br>keyboardNavigation: off');
         document.getElementById('keyboardNavigation').removeAttribute("checked");
+        document.getElementById('arrowNavigation').disabled=true;
         keyboardNavigation = false;
     } else {
         add('<br>keyboardNavigation: on');
         document.getElementById('keyboardNavigation').setAttribute("checked", "");
+        document.getElementById('arrowNavigation').disabled=false;
         keyboardNavigation = true;
     }
     StorageArea.set({'keyboardNavigation': keyboardNavigation});
+}
+
+var arrowNavigation;
+function arrowNavigationToggled() {
+    var checkbox = document.getElementById('arrowNavigation').checked;
+    if (!checkbox) {
+        add('<br>arrowNavigation: off');
+        document.getElementById('arrowNavigation').removeAttribute("checked");
+        arrowNavigation = false;
+    } else {
+        add('<br>arrowNavigation: on');
+        document.getElementById('arrowNavigation').setAttribute("checked", "");
+        arrowNavigation = true;
+    }
+    StorageArea.set({'arrowNavigation': arrowNavigation});
 }
 
 document.addEventListener("click", function (e) {
@@ -122,5 +143,6 @@ document.addEventListener("click", function (e) {
         document.getElementById('Link3DToggle').addEventListener('change', Link3DToggleCheckboxToggled);
         document.getElementById('titleTextMover').addEventListener('change', titleTextMoverToggled);
         document.getElementById('keyboardNavigation').addEventListener('change', keyboardNavigationToggled);
+        document.getElementById('arrowNavigation').addEventListener('change', arrowNavigationToggled);
     }
 });

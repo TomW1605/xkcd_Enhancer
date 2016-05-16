@@ -1,18 +1,81 @@
 var badIDs = [1663, 1608, 1110, 1350, 1506, 1525, 1193];
 
-chrome.storage.local.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation'], function (data) {
+const StorageArea = chrome.storage.local;
+
+//chrome.storage.local.remove('history');
+
+function has(obj, value) {
+    for(var id in obj) {
+        if(obj[id] == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+StorageArea.get('history', function (data) {
+    StorageArea.get(null, function (e) {
+
+        var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
+        id = id.replace(/^([\s\S]*)(com\/)/g, '');
+        id = id.replace(/(\/)([\s\S]*)$/g, '');
+        id = parseInt(id) + 1;
+        //console.log(id);
+
+        if(!e['history']){
+            console.log('it is not there');
+            StorageArea.set({'history': [id]});
+        } else {
+            console.log('it is there');
+            var historyList = [];
+            historyList = historyList.concat(data['history']);
+            if(!has(historyList, id)) {
+                if(historyList.length<30) {
+                    historyList.push(id);
+                    StorageArea.set({'history': historyList});
+                } else {
+                    historyList.shift();
+                    historyList.push(id);
+                    StorageArea.set({'history': historyList});
+                }
+            }
+        }
+
+        const latestId = (function () {
+            const refId = 1411;
+            const refTime = new Date(2014, 7, 22).getTime();
+
+            const daysSinceRef = (Date.now() - refTime) / (1000 * 60 * 60 * 24) | 0;
+
+            return refId + 3 / 7 * daysSinceRef | 0;
+        })();
+
+        var isNew = true;
+
+        while (isNew){
+            var random = 1 + Math.random() * (latestId - 1) | 0;
+            if(!has(historyList, random)){
+                document.querySelectorAll(".comicNav")[0].children[2].children[0].href = '/'+random+'/';
+                isNew = false;
+            }
+        }
+    });
+});
+
+StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation', 'arrowNavigation'], function (data) {
     var permanentLinkToggle = data['permanentLinkToggle'];
     var imageLinkToggle = data['imageLinkToggle'];
     var explainLinkToggle = data['explainLinkToggle'];
     var Link3DToggle = data['Link3DToggle'];
     var titleTextMover = data['titleTextMover'];
     var keyboardNavigation = data['keyboardNavigation'];
+    var arrowNavigation = data['arrowNavigation'];
 
     var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
     id = id.replace(/^([\s\S]*)(com\/)/g, '');
     id = id.replace(/(\/)([\s\S]*)$/g, '');
-    console.log(id);
     id = parseInt(id) + 1;
+    console.log(id);
 
     function checkNav(e) {
         e = e || window.event;
@@ -20,20 +83,41 @@ chrome.storage.local.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLink
         if (comicNav.length === 0) {
             return;
         }
-        if (e.keyCode == '37') {
-            self.location = comicNav[0].children[1].children[0].href
-        } else if (e.keyCode == '39') {
-            self.location = comicNav[0].children[3].children[0].href;
-        } else if (e.keyCode == '38') {
-            self.location = comicNav[0].children[2].children[0].href;
-        } else if (e.keyCode == '32') {
-            self.location = comicNav[0].children[2].children[0].href;
+        if(id==1608||!arrowNavigation) {
+            if (e.keyCode == '78') {
+                //next
+                self.location = comicNav[0].children[1].children[0].href
+            } else if (e.keyCode == 'p') {
+                //prev
+                self.location = comicNav[0].children[3].children[0].href;
+            } else if (e.keyCode == '32' || e.keyCode == '82') {
+                //rand
+                self.location = comicNav[0].children[2].children[0].href;
+            } else if (e.keyCode == '69') {
+                //explain
+                var win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
+                win.focus();
+            }
         } else {
-
+            if (e.keyCode == '37' || e.keyCode == '78') {
+                //next
+                self.location = comicNav[0].children[1].children[0].href
+            } else if (e.keyCode == '39' || e.keyCode == 'p') {
+                //prev
+                self.location = comicNav[0].children[3].children[0].href;
+            } else if (e.keyCode == '38' || e.keyCode == '32' || e.keyCode == '82') {
+                //rand
+                self.location = comicNav[0].children[2].children[0].href;
+            } else if (e.keyCode == '69') {
+                //explain
+                var win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
+                win.focus();
+            }
         }
     }
 
-    if (!(badIDs.indexOf(id) >= 0)) {
+    if (true/*!(badIDs.indexOf(id) >= 0)/**/) {
+
         if(keyboardNavigation) {
             document.onkeydown = checkNav;
         }
@@ -55,16 +139,18 @@ chrome.storage.local.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLink
                 if (comic === null) {
                     return;
                 }
-                if (window.titleText === undefined) {
-                    window.titleText = true;
-                    var image = findComic(comic);
-                    var paragraph = document.createElement("p");
-                    paragraph.innerHTML = 'Title text: ' + image.title;
-                    paragraph.id = "titleText";
-                    var padding = "25px";
-                    paragraph.style.paddingLeft = padding;
-                    paragraph.style.paddingRight = padding;
-                    comic.appendChild(paragraph);
+                if(!(badIDs.indexOf(id) >= 0)) {
+                    if (window.titleText === undefined) {
+                        window.titleText = true;
+                        var image = findComic(comic);
+                        var paragraph = document.createElement("p");
+                        paragraph.innerHTML = 'Title text: ' + image.title;
+                        paragraph.id = "titleText";
+                        var padding = "25px";
+                        paragraph.style.paddingLeft = padding;
+                        paragraph.style.paddingRight = padding;
+                        comic.appendChild(paragraph);
+                    }
                 }
             }, true);
         }
@@ -75,29 +161,45 @@ chrome.storage.local.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLink
         var imageURL = html;
         imageURL = imageURL.replace(/^([\s\S]*)(hotlinking\/embedding\): )/g, '');
         imageURL = imageURL.replace(/(<div id="transcript")([\s\S]*)$/g, '');
+        console.log(imageURL);
 
         var permanentLink = 'Permanent link to this comic: http://xkcd.com/' + id + '/';
-         if(permanentLinkToggle) {
-         permanentLink = 'Permanent link to this comic: <a title="permanent link to this comic" href="http://xkcd.com/' + id + '/" target="_blank">http://xkcd.com/' + id + '/</a>';
-         }
+        if(permanentLinkToggle) {
+            permanentLink = 'Permanent link to this comic: <a title="permanent link to this comic" href="http://xkcd.com/' + id + '/" target="_blank">http://xkcd.com/' + id + '/</a>';
+        }
 
-         var imageLink = '<br>Image URL (for hotlinking/embedding): ' + imageURL;
-         if(imageLinkToggle) {
-         imageLink = '<br>Image URL (for hotlinking/embedding): <a title="link to this comic\'s image" href="' + imageURL + '" target="_blank">' + imageURL + '</a>';
-         }
+        var imageLink = '<br>Image URL (for hotlinking/embedding): ' + imageURL;
+        if(imageLinkToggle) {
+            imageLink = '<br>Image URL (for hotlinking/embedding): <a title="link to this comic\'s image" href="' + imageURL + '" target="_blank">' + imageURL + '</a>';
+        }
 
-         var explainLink = '';
-         if(explainLinkToggle) {
-         explainLink = '<br>This comic\'s explain xkcd page: <a title="link to explain xkcd" href="http://www.explainxkcd.com/wiki/index.php/' + id + '" target="_blank">http://www.explainxkcd.com/wiki/index.php/' + id + '</a>';
-         }
+        var explainLink = '';
+        if(explainLinkToggle) {
+             explainLink = '<br>This comic\'s explain xkcd page: <a title="link to explain xkcd" href="http://www.explainxkcd.com/wiki/index.php/' + id + '" target="_blank">http://www.explainxkcd.com/wiki/index.php/' + id + '</a>';
+        }
 
-         var Link3D = '';
-         if (id <= 880 && Link3DToggle) {
-         Link3D = '<br>3D version of this comic: <a title="link to 3D comic" href="http://xk3d.xkcd.com/' + id + '" target="_blank">http://xk3d.xkcd.com/' + id + '</a>';
-         }
+        var Link3D = '';
+        if (id <= 880 && Link3DToggle) {
+            Link3D = '<br>3D version of this comic: <a title="link to 3D comic" href="http://xk3d.xkcd.com/' + id + '" target="_blank">http://xk3d.xkcd.com/' + id + '</a>';
+        }
 
-         html = html.replace(/(Permanent link)([\s\S]*)((png|jpg)|http:\/\/imgs.xkcd.com\/comics\/)/, permanentLink+imageLink+explainLink+Link3D);
+        var el = document.getElementById("middleContainer"), child = el.firstChild, nextChild;
 
-         theDiv.outerHTML = html;/**/
+        while (child) {
+            nextChild = child.nextSibling;
+            if (child.nodeType == 3) {
+                el.removeChild(child);
+            }
+            child = nextChild;
+        }
+
+        theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
+        theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
+
+        html = permanentLink+imageLink+explainLink+Link3D;
+        var para = document.createElement("div");
+        theDiv.appendChild(para);
+
+        document.getElementById('middleContainer').lastElementChild.outerHTML = html;
     }
 });

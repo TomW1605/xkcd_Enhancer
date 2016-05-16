@@ -26,6 +26,6 @@ body {
     width:420px;
     height:185px;
     left:50%;
-    border-style: solid;
+    /*border-style: solid;/**/
     margin: 0;
 }
