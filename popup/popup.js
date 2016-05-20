@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     retrieve('Link3DToggle');
     retrieve('titleTextMover');
     retrieve('fixRandom');
+    retrieve('favouritesButtonToggle');
     retrieve('keyboardNavigation');
     retrieve('arrowNavigation');
 });
@@ -170,6 +171,22 @@ function fixRandomToggled() {
     StorageArea.set({'fixRandom': fixRandom});
 }
 
+var favouritesButton;
+
+function favouritesButtonToggle() {
+    var checkbox = document.getElementById('favouritesButtonToggle').checked;
+    if (!checkbox) {
+        add('<br>favouritesButton: off');
+        document.getElementById('favouritesButtonToggle').removeAttribute("checked");
+        favouritesButton = false;
+    } else {
+        add('<br>favouritesButton: on');
+        document.getElementById('favouritesButtonToggle').setAttribute("checked", "");
+        favouritesButton = true;
+    }
+    StorageArea.set({'favouritesButtonToggle': favouritesButton});
+}
+
 var keyboardNavigation;
 
 function keyboardNavigationToggled() {
@@ -232,6 +249,7 @@ document.addEventListener('click', function (e) {
         document.getElementById('explainLinkToggle').addEventListener('change', explainLinkToggleCheckboxToggled);
         document.getElementById('Link3DToggle').addEventListener('change', Link3DToggleCheckboxToggled);
         document.getElementById('titleTextMover').addEventListener('change', titleTextMoverToggled);
+        document.getElementById('favouritesButtonToggle').addEventListener('change', favouritesButtonToggle);
         document.getElementById('fixRandom').addEventListener('change', fixRandomToggled);
         document.getElementById('keyboardNavigation').addEventListener('change', keyboardNavigationToggled);
         document.getElementById('arrowNavigation').addEventListener('change', arrowNavigationToggled);
@@ -243,7 +261,7 @@ function removeFavourites(data) {
     console.log(index);
 
     document.getElementById('favourites').removeChild(document.getElementById('favouriteLink' + index));
-    document.getElementById('favourites').removeChild(document.getElementById(data['currentTarget']['attributes'][0]['nodeValue']));
+    document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
     document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
 
     StorageArea.get(null, function (data) {
@@ -269,5 +287,3 @@ window.onload = function () {
         }
     });
 };
-
-var favouritesName = ["Hoverboard", "Laser Products", "Hypotheticals", "Darkness", "Success", "Plastic Bags", "Interdisciplinary", "Keyboard Problems", "File Extensions"];

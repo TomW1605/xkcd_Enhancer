@@ -64,6 +64,7 @@ body {
 .title {
     font-size: 36px;
     text-align: center;
+    margin-top: -10px;
     margin-bottom: 5px;
 }
 

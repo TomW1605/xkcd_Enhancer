@@ -4,6 +4,7 @@ const StorageArea = chrome.storage.local;
 
 function has(obj, value) {
     for(var id in obj) {
+        //noinspection JSUnfilteredForInLoop
         if(obj[id] == value) {
             return true;
         }
@@ -18,7 +19,7 @@ link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation', 'arrowNavigation', 'fixRandom'], function (data) {
+StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation', 'arrowNavigation', 'fixRandom', 'favouritesButtonToggle'], function (data) {
     var permanentLinkToggle = data['permanentLinkToggle'];
     var imageLinkToggle = data['imageLinkToggle'];
     var explainLinkToggle = data['explainLinkToggle'];
@@ -27,6 +28,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
     var keyboardNavigation = data['keyboardNavigation'];
     var arrowNavigation = data['arrowNavigation'];
     var fixRandom = data['fixRandom'];
+    var favouritesButtonToggle = data['favouritesButtonToggle'];
 
     var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
     id = id.replace(/^([\s\S]*)(com\/)/g, '');
@@ -87,6 +89,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
         if (comicNav.length === 0) {
             return;
         }
+        var win;
         if(id==1608||!arrowNavigation) {
             if (e.keyCode == '80') {
                 //prev
@@ -99,7 +102,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 self.location = comicNav[0].children[2].children[0].href;
             } else if (e.keyCode == '69') {
                 //explain
-                var win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
+                win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                 win.focus();
             } else if (e.keyCode == '70') {
                 StorageArea.get('favouritesID', function (data) {
@@ -146,7 +149,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 self.location = comicNav[0].children[2].children[0].href;
             } else if (e.keyCode == '69') {
                 //explain
-                var win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
+                win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                 win.focus();
             } else if (e.keyCode == '70') {
                 StorageArea.get('favouritesID', function (data) {
@@ -250,7 +253,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
     }
     
     var favouritesButton = '';
-    if (true) {
+    if (favouritesButtonToggle) {
         favouritesButton = '<button class="button" id="addToFavourite"/>Add this comic to favourites</button><br>'
     }
 
