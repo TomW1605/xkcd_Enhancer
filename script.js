@@ -47,7 +47,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 var historyList = [];
                 historyList = historyList.concat(data['history']);
                 if(!has(historyList, id)) {
-                    if(historyList.length<100) {
+                    if(historyList.length<1000) {
                         historyList.push(id);
                         StorageArea.set({'history': historyList});
                     } else {

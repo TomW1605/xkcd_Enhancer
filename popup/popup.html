@@ -10,7 +10,7 @@
 <div class="title">
     xkcd Enhancer Settings<br>
 </div>
-<div style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none; -o-user-select:none;" unselectable="on">
+<div style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;">
     <div class="links">
         <a title="Latest Comic" href="http://xkcd.com/" target="_blank" class="linkButton">Go to latest comic</a>
         <a title="Random Comic" href="http://c.xkcd.com/random/comic/" target="_blank" style="margin-left: 10px;" id="random" class="linkButton">Go to random comic</a><br>
@@ -22,12 +22,13 @@
     <input type="checkbox" class="check" name="explainLinkToggle" id="explainLinkToggle" checked>
     <label for="explainLinkToggle" class="check">Add link to Explain xkcd<br></label>
     <input type="checkbox" class="check" name="Link3DToggle" id="Link3DToggle" checked>
-    <label for="Link3DToggle" class="check">Add link to 3D vrsion (only comics before 880: Headache)<br></label>
-    <input type="checkbox" class="check" name="titleTextMover" id="titleTextMover" checked>
+    <label for="Link3DToggle" class="check">Add link to 3D version (only comics before 880:<br></label>
+    <label for="Link3DToggle" style="padding-left: 22px" class="check">Headache)<br></label>
+    <input type="checkbox"  class="check" name="titleTextMover" id="titleTextMover" checked>
     <label for="titleTextMover" class="check">Add title text under comic<br></label>
     <input type="checkbox" class="check" name="fixRandom" id="fixRandom" checked>
     <label for="fixRandom" class="check">Changes the way comics are randomly picked so it wont<br></label>
-    <label for="fixRandom" style="padding-left: 25px" class="check">take you to any of the last 100 comics you have seen<br></label>
+    <label for="fixRandom" style="padding-left: 25px" class="check">take you to any of the last 1000 comics you have seen<br></label>
     <button class="button" id="clearHistory" style="margin-left: 3px; margin-top: 4px; margin-bottom: 7px;">Clear History</button><br>
     <input type="checkbox" class="check" name="keyboardNavigation" id="keyboardNavigation" checked>
     <label for="keyboardNavigation" class="check">Enable keyboard navigation<br></label>
@@ -39,7 +40,7 @@
         n -> next<br>
         p -> previous<br>
         r/space -> random<br>
-        e -> explain xkcd<br>
+        e -> go to explain xkcd<br>
         f -> add to favourites<br>
         <br>
         Arrow key shortcuts (when enabled):<br>
