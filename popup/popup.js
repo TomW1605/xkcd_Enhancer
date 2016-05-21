@@ -1,4 +1,4 @@
-var StorageArea = chrome.storage.local;
+var StorageArea = chrome.storage.sync;
 
 function add(text) {
     console.log(text);
@@ -45,6 +45,7 @@ StorageArea.get(null, function(data) {
     for (var i = 0; i < data['favouritesID'].length; i++) {
         var para = document.createElement("div");
         document.getElementById('favourites').appendChild(para);
+
         document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton">&#9003;</button><a id="favouriteLink' + i + '" title="' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '" href="http://xkcd.com/' + data['favouritesID'][i] + '/" target="_blank" class="favouritesLinks">' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '</a><br id="favouriteBreak' + i + '">';
     }
 });
@@ -263,6 +264,7 @@ function removeFavourites(data) {
     document.getElementById('favourites').removeChild(document.getElementById('favouriteLink' + index));
     document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
     document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
+    document.getElementById('favourites').removeChild(document.getElementById('favouriteExplainLink' + index));
 
     StorageArea.get(null, function (data) {
         var favouritesIDList = [];

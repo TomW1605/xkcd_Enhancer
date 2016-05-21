@@ -1,10 +1,9 @@
 var badIDs = [1663, 1608, 1110, 506, 1525, 1193];
 
-const StorageArea = chrome.storage.local;
+const StorageArea = chrome.storage.sync;
 
 function has(obj, value) {
     for(var id in obj) {
-        //noinspection JSUnfilteredForInLoop
         if(obj[id] == value) {
             return true;
         }
