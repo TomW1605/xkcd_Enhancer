@@ -1,6 +1,7 @@
 var badIDs = [1663, 1608, 1110, 506, 1525, 1193];
 
-const StorageArea = chrome.storage.sync;
+const StorageAreaSync = chrome.storage.sync;
+const StorageAreaLocal = chrome.storage.local;
 
 function has(obj, value) {
     for(var id in obj) {
@@ -18,7 +19,7 @@ link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation', 'arrowNavigation', 'fixRandom', 'favouritesButtonToggle'], function (data) {
+StorageAreaSync.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 'Link3DToggle', 'titleTextMover', 'keyboardNavigation', 'arrowNavigation', 'fixRandom', 'favouritesButtonToggle'], function (data) {
     var permanentLinkToggle = data['permanentLinkToggle'];
     var imageLinkToggle = data['imageLinkToggle'];
     var explainLinkToggle = data['explainLinkToggle'];
@@ -39,22 +40,22 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
     name = name.replace(/^(xkcd: )/g, '');
     console.log(name);
 
-    StorageArea.get('history', function (data) {
-        StorageArea.get(null, function (e) {
+    StorageAreaLocal.get('history', function (data) {
+        StorageAreaLocal.get(null, function (e) {
 
             if(!e['history']){
-                StorageArea.set({'history': [id]});
+                StorageAreaLocal.set({'history': [id]});
             } else {
                 var historyList = [];
                 historyList = historyList.concat(data['history']);
                 if(!has(historyList, id)) {
                     if(historyList.length<1000) {
                         historyList.push(id);
-                        StorageArea.set({'history': historyList});
+                        StorageAreaLocal.set({'history': historyList});
                     } else {
                         historyList.shift();
                         historyList.push(id);
-                        StorageArea.set({'history': historyList});
+                        StorageAreaLocal.set({'history': historyList});
                     }
                 }
             }
@@ -72,7 +73,7 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 var isNew = true;
                 while (isNew) {
                     var random = 1 + Math.random() * (latestId - 1) | 0;
-                    if (!has(historyList, random)) {
+                    if (!has(historyList, random)&&!(random==404)) {
                         document.querySelectorAll(".comicNav")[0].children[2].children[0].href = '/' + random + '/';
                         document.querySelectorAll(".comicNav")[1].children[2].children[0].href = '/' + random + '/';
                         isNew = false;
@@ -104,33 +105,33 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                 win.focus();
             } else if (e.keyCode == '70') {
-                StorageArea.get('favouritesID', function (data) {
-                    StorageArea.get(null, function (e) {
+                StorageAreaLocal.get('favouritesID', function (data) {
+                    StorageAreaLocal.get(null, function (e) {
 
                         if (!e['favouritesID']) {
-                            StorageArea.set({'favouritesID': [id]});
+                            StorageAreaLocal.set({'favouritesID': [id]});
                         } else {
                             var favouritesIDList = [];
                             favouritesIDList = favouritesIDList.concat(data['favouritesID']);
                             if (!has(favouritesIDList, id)) {
                                 favouritesIDList.push(id);
-                                StorageArea.set({'favouritesID': favouritesIDList});
+                                StorageAreaLocal.set({'favouritesID': favouritesIDList});
                             }
                         }
                     });
                 });
 
-                StorageArea.get('favouritesName', function (data) {
-                    StorageArea.get(null, function (e) {
+                StorageAreaLocal.get('favouritesName', function (data) {
+                    StorageAreaLocal.get(null, function (e) {
 
                         if (!e['favouritesName']) {
-                            StorageArea.set({'favouritesName': [name]});
+                            StorageAreaLocal.set({'favouritesName': [name]});
                         } else {
                             var favouritesNameList = [];
                             favouritesNameList = favouritesNameList.concat(data['favouritesName']);
                             if (!has(favouritesNameList, name)) {
                                 favouritesNameList.push(name);
-                                StorageArea.set({'favouritesName': favouritesNameList});
+                                StorageAreaLocal.set({'favouritesName': favouritesNameList});
                             }
                         }
                     });
@@ -151,33 +152,33 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
                 win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                 win.focus();
             } else if (e.keyCode == '70') {
-                StorageArea.get('favouritesID', function (data) {
-                    StorageArea.get(null, function (e) {
+                StorageAreaLocal.get('favouritesID', function (data) {
+                    StorageAreaLocal.get(null, function (e) {
 
                         if (!e['favouritesID']) {
-                            StorageArea.set({'favouritesID': [id]});
+                            StorageAreaLocal.set({'favouritesID': [id]});
                         } else {
                             var favouritesIDList = [];
                             favouritesIDList = favouritesIDList.concat(data['favouritesID']);
                             if (!has(favouritesIDList, id)) {
                                 favouritesIDList.push(id);
-                                StorageArea.set({'favouritesID': favouritesIDList});
+                                StorageAreaLocal.set({'favouritesID': favouritesIDList});
                             }
                         }
                     });
                 });
 
-                StorageArea.get('favouritesName', function (data) {
-                    StorageArea.get(null, function (e) {
+                StorageAreaLocal.get('favouritesName', function (data) {
+                    StorageAreaLocal.get(null, function (e) {
 
                         if (!e['favouritesName']) {
-                            StorageArea.set({'favouritesName': [name]});
+                            StorageAreaLocal.set({'favouritesName': [name]});
                         } else {
                             var favouritesNameList = [];
                             favouritesNameList = favouritesNameList.concat(data['favouritesName']);
                             if (!has(favouritesNameList, name)) {
                                 favouritesNameList.push(name);
-                                StorageArea.set({'favouritesName': favouritesNameList});
+                                StorageAreaLocal.set({'favouritesName': favouritesNameList});
                             }
                         }
                     });
@@ -231,6 +232,10 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
     imageURL = imageURL.replace(/(<div id="transcript")([\s\S]*)$/g, '');
     console.log(imageURL);
 
+    if (false) {
+        document.getElementById('transcript').setAttribute('style', 'display: block;margin-bottom: 10px;');
+    }
+
     var permanentLink = 'Permanent link to this comic: http://xkcd.com/' + id + '/';
     if (permanentLinkToggle) {
         permanentLink = 'Permanent link to this comic: <a title="permanent link to this comic" href="http://xkcd.com/' + id + '/" target="_blank">http://xkcd.com/' + id + '/</a>';
@@ -276,33 +281,33 @@ StorageArea.get(['permanentLinkToggle', 'imageLinkToggle', 'explainLinkToggle', 
     document.getElementById('middleContainer').lastElementChild.outerHTML = html;
 
     document.getElementById('addToFavourite').addEventListener('click', function addToFavourite() {
-        StorageArea.get('favouritesID', function (data) {
-            StorageArea.get(null, function (e) {
+        StorageAreaLocal.get('favouritesID', function (data) {
+            StorageAreaLocal.get(null, function (e) {
 
                 if (!e['favouritesID']) {
-                    StorageArea.set({'favouritesID': [id]});
+                    StorageAreaLocal.set({'favouritesID': [id]});
                 } else {
                     var favouritesIDList = [];
                     favouritesIDList = favouritesIDList.concat(data['favouritesID']);
                     if (!has(favouritesIDList, id)) {
                         favouritesIDList.push(id);
-                        StorageArea.set({'favouritesID': favouritesIDList});
+                        StorageAreaLocal.set({'favouritesID': favouritesIDList});
                     }
                 }
             });
         });
 
-        StorageArea.get('favouritesName', function (data) {
-            StorageArea.get(null, function (e) {
+        StorageAreaLocal.get('favouritesName', function (data) {
+            StorageAreaLocal.get(null, function (e) {
 
                 if (!e['favouritesName']) {
-                    StorageArea.set({'favouritesName': [name]});
+                    StorageAreaLocal.set({'favouritesName': [name]});
                 } else {
                     var favouritesNameList = [];
                     favouritesNameList = favouritesNameList.concat(data['favouritesName']);
                     if (!has(favouritesNameList, name)) {
                         favouritesNameList.push(name);
-                        StorageArea.set({'favouritesName': favouritesNameList});
+                        StorageAreaLocal.set({'favouritesName': favouritesNameList});
                     }
                 }
             });

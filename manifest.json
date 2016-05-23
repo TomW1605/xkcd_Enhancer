@@ -2,13 +2,16 @@
    "manifest_version": 2,
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
-   "version": "6.3",
+   "version": "6.4",
    "options_page": "popup/popup.html",
    "content_scripts": [ {
       "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"],
       "css": ["fix.css"],
       "js": ["script.js"]
    } ],
+   "background": {
+      "scripts": ["popup/jquery.js", "background.js"]
+   },
    "description": "Adds many features to xkcd comic pages. Notably keyboard navigation, a favourites list and changes the way random comics are chosen.",
    "icons": {
       "128": "icon.png",
@@ -17,12 +20,13 @@
    "permissions": [
       "activeTab",
       "storage",
-      "tabs"
+      "tabs",
+      "http://xkcd.com/archive/"
    ],
    "browser_action": {
      "default_icon": "icon.png",
      "default_title": "xkcd Enhancer",
      "default_popup": "popup/popup.html"
    },
-   "web_accessible_resources": ["fix.css", "script.js"]
+   "web_accessible_resources": ["fix.css", "script.js", "comicList.json"]
 }
