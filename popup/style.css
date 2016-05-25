@@ -5,6 +5,10 @@ body {
     font-family: Lucida, Helvetica, sans-serif;
     font-weight: 500;
     text-decoration: none;
+    width:424px;
+    left:50%;
+    margin: 10px;
+    background-color:#96A8C8;
 }
 
 .button {
@@ -34,7 +38,7 @@ body {
     -webkit-box-shadow: none;
 }
 
-.SearchField {
+.searchField {
     background-color: #6E7B91;
     color: #FFF;
     border: 1.5px solid #333;
@@ -42,17 +46,18 @@ body {
     font-weight: 600;
     padding: 1.5px 12px;
     text-decoration: none;
-    border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 0 5px 0 gray;
-    -moz-box-shadow: 0 0 5px 0 gray;
+    border-radius: 3px;
     -webkit-box-shadow: 0 0 5px 0 gray;
+    -moz-box-shadow: 0 0 5px 0 gray;
+    box-shadow: 0 0 5px 0 gray;
     margin-bottom: 5px;
+    width: 280px;
     cursor: text;
 }
 
-.SearchField:focus {
+.searchField:focus {
     background-color: #FFF;
     color: #6E7B91;
 }
@@ -156,14 +161,11 @@ body {
     color: #9d5858;
 }
 
-body {
-    width:420px;
-    left:50%;
-    margin: 10px;
-    background-color:#96A8C8;
-    font-size:16px;
-    font-variant:small-caps;
-    font-family:Lucida,Helvetica,sans-serif;
-    font-weight:500;
-    text-decoration: none;
+.reloadButton {
+    padding: 1.5px 5px;
+    height: 23px;
+}
+
+.donateButton {
+    margin-top: 5px;
 }

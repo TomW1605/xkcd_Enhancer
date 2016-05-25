@@ -21,12 +21,12 @@
       "activeTab",
       "storage",
       "tabs",
-      "http://xkcd.com/archive/"
+      "http://106.68.201.239:8000/"
    ],
    "browser_action": {
      "default_icon": "icon.png",
      "default_title": "xkcd Enhancer",
      "default_popup": "popup/popup.html"
    },
-   "web_accessible_resources": ["fix.css", "script.js", "comicList.json"]
+   "web_accessible_resources": ["fix.css", "script.js", "comicList.txt"]
 }

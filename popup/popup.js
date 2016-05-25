@@ -1,6 +1,12 @@
 var StorageAreaLocal = chrome.storage.local;
 var StorageAreaSync = chrome.storage.sync;
 
+console = chrome.extension.getBackgroundPage().console;
+
+var loadList = function(){
+    chrome.extension.getBackgroundPage().loadList();
+};
+
 function has(obj, value) {
     for (var id in obj) {
         if (obj[id] == value) {
@@ -18,7 +24,7 @@ function OpenInNewTab(url) {
 
 function retrieve(name) {
     StorageAreaSync.get(null, function (data) {
-        console.info(data[name]);
+        console.log(data[name]);
         if (!data[name]) {
             document.getElementById(name).removeAttribute("checked");
             if (name == 'keyboardNavigation') {
@@ -187,15 +193,15 @@ function openAllFavourites() {
     });
 }
 
-function removeFavourites() {
+function removeFavourites(data) {
+    console.log(data);
+    var index = parseInt(data['currentTarget']['attributes'][0]['nodeValue'].replace('deleteButton', ''));
+
+    document.getElementById('favourites').removeChild(document.getElementById('favouriteLink' + index));
+    document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
+    document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
+
     StorageAreaLocal.get(null, function (data) {
-        var index = parseInt(data['currentTarget']['attributes'][0]['nodeValue'].replace('deleteButton', ''));
-
-        document.getElementById('favourites').removeChild(document.getElementById('favouriteLink' + index));
-        document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
-        document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
-        document.getElementById('favourites').removeChild(document.getElementById('favouriteExplainLink' + index));
-
         var favouritesIDList = [];
         favouritesIDList = favouritesIDList.concat(data['favouritesID']);
         favouritesIDList.splice(index, 1);
@@ -236,46 +242,49 @@ function addFavouriteLinks(data) {
         var para = document.createElement("div");
         document.getElementById('favourites').appendChild(para);
 
-        document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton">&#9003;</button><a id="favouriteLink' + i + '" title="' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '" href="http://xkcd.com/' + data['favouritesID'][i] + '/" target="_blank" class="favouritesLinks">' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '</a><br id="favouriteBreak' + i + '">';
+        document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton" title="Remove comic \'' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '\' from your favourites">&#9003;</button><a id="favouriteLink' + i + '" title="' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '" href="http://xkcd.com/' + data['favouritesID'][i] + '/" target="_blank" class="favouritesLinks">' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '</a><br id="favouriteBreak' + i + '">';
     }
 }
 
-
-/*var xhr = new XMLHttpRequest();
-xhr.open('GET', 'http://xkcd.com/archive/', true);
-xhr.onload = function() {*/
-
-function test() {
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('loaded');
 
     function search() {
         StorageAreaLocal.get(null, function (data) {
-            var comicList = data['comicList'];
-            //console.log(comicList);
-            while (document.getElementById('searchResultsOuter').hasChildNodes()) {
-                document.getElementById('searchResultsOuter').removeChild(document.getElementById('searchResultsOuter').lastChild);
-            }
-            var searchTerm = document.getElementById("SearchField").value.toLocaleLowerCase();
-            console.log(searchTerm);
-            var results = document.createElement("div");
-            document.getElementById('searchResultsOuter').appendChild(results);
-            document.getElementById('searchResultsOuter').lastElementChild.outerHTML = '<details open><summary class="searchResults">Search Results</summary><div id="searchResults"></div></details>';
-            for (var i = 0; i < comicList.length; i++) {
-                if (~comicList[i].toLocaleLowerCase().indexOf(searchTerm)) {
-                    var searchID = comicList[i].replace(/(_[\s\S]*)$/g, '');
-                    var searchName = comicList[i].replace('_', ': ');
-                    searchName = searchName.replace(/_[\s\S]*$/g, '');
-                    console.log(searchName);
-                    var para = document.createElement("div");
-                    document.getElementById('searchResults').appendChild(para);
-
-                    document.getElementById('searchResults').lastElementChild.outerHTML = '<a id="searchResultsLink' + i + '" title="' + searchName + '" href="http://xkcd.com/' + searchID + '/" target="_blank" class="favouritesLinks">' + searchName + '</a><br id="searchResultsBreak' + i + '">';
+            try {
+                var comicList = data['comicList'];
+                //console.log(comicList);
+                while (document.getElementById('searchResultsOuter').hasChildNodes()) {
+                    document.getElementById('searchResultsOuter').removeChild(document.getElementById('searchResultsOuter').lastChild);
                 }
-            }
-            if (document.getElementById('searchResults').childElementCount == 0) {
+                var searchTerm = document.getElementById("SearchField").value.toLocaleLowerCase();
+                console.log(searchTerm);
+                var results = document.createElement("div");
+                document.getElementById('searchResultsOuter').appendChild(results);
+                document.getElementById('searchResultsOuter').lastElementChild.outerHTML = '<details open><summary class="searchResults">Search Results</summary><div id="searchResults"></div></details>';
+                for (var i = 0; i < comicList.length; i++) {
+                    if (~comicList[i].toLocaleLowerCase().indexOf(searchTerm)) {
+                        var searchID = comicList[i].replace(/(_[\s\S]*)$/g, '');
+                        var searchName = comicList[i].replace('_', ': ');
+                        searchName = searchName.replace(/_[\s\S]*$/g, '');
+                        console.log(searchName);
+                        var para = document.createElement("div");
+                        document.getElementById('searchResults').appendChild(para);
+
+                        document.getElementById('searchResults').lastElementChild.outerHTML = '<a id="searchResultsLink' + i + '" title="' + searchName + '" href="http://xkcd.com/' + searchID + '/" target="_blank" class="favouritesLinks">' + searchName + '</a><br id="searchResultsBreak' + i + '">';
+                    }
+                }
+                if (document.getElementById('searchResults').childElementCount == 0) {
+                    var noResults = document.createElement("div");
+                    document.getElementById('searchResults').appendChild(noResults);
+
+                    document.getElementById('searchResults').lastElementChild.outerHTML = 'No comics found for the search term "' + searchTerm + '". Please try another search.';
+                }
+            } catch (e) {
                 var noResults = document.createElement("div");
                 document.getElementById('searchResults').appendChild(noResults);
 
-                document.getElementById('searchResults').lastElementChild.outerHTML = 'No comics found for the search term "' + searchTerm + '". Please try another search.';
+                document.getElementById('searchResults').lastElementChild.outerHTML = 'Comic list not loaded. Please reload list';
             }
         });
     }
@@ -285,37 +294,14 @@ function test() {
     $("#openAllFavourites").click(openAllFavourites);
     $("#clearAllFavourites").click(clearAllFavourites);
 
-    /*var comicList;
-     function makeComicList() {
-     comicList = xhr.responseText;
-     comicList = comicList.replace(/^([\s\S]*)(\(Hover mouse over title to view publication date\)<br \/><br \/>)(\s\s\s)/g, '');
-     comicList = comicList.replace(/(\s\s\s)(<\/div>)(\s)(<div id="bottom" class="box">)([\s\S]*)$/g, '');
-     comicList = comicList.replace(/((\n\n\n\n)|(\n\n\n\n\n\n))(?=<a)/g, '\n');
-     comicList = comicList.replace(/(<\/a><br\/>)/g, '');
-     comicList = comicList.replace(/(\/")( title=")(\S*)(">)/g, '_');
-     comicList = comicList.replace(/(<a href="\/)/g, '');
-     comicList = comicList.replace(/(<)([\s\S]*?)(>)/g, '');
-     comicList = comicList.split(/\n/);
-     comicList = comicList.reverse();
-     return comicList;
-     }*/
-
     $("#SearchButton").click(search);
     $("#SearchField").keyup(function (event) {
         if (event.keyCode == 13) {
             $("#SearchButton").click();
             return false;
         }
-    });//.focus(makeComicList);
-    //$("#SearchField").focus(makeComicList);
-}//;
-
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('loaded');
-
-    test();
-
-    //xhr.send();
+    });
+    $("#reloadButton").click(loadList);
 
     retrieve('permanentLinkToggle');
     retrieve('imageLinkToggle');
@@ -340,6 +326,9 @@ document.addEventListener('DOMContentLoaded', function () {
     StorageAreaLocal.get(null, function (data) {
         fixRandomLink(data);
         addFavouriteLinks(data);
+    });
+
+    StorageAreaLocal.get(null, function (data) {
         for (var i = 0; i < data['favouritesID'].length; i++) {
             $('#deleteButton' + i).click(removeFavourites);
         }
