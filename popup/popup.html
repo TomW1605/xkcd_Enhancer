@@ -15,28 +15,38 @@
         <a title="Latest Comic" href="http://xkcd.com/" target="_blank" class="linkButton">Go to latest comic</a>
         <a title="Random Comic" href="http://c.xkcd.com/random/comic/" target="_blank" style="margin-left: 10px;" id="random" class="linkButton">Go to random comic</a><br>
     </div>
+
     <input type='text' class="searchField" id='SearchField' placeholder="Search for a comic by id or name" title="Search for a comic by id or name">
     <button class="button" id='SearchButton' title="Search">Search</button>
     <button id="reloadButton" class="button reloadButton" title="Reload">&#10227;</button><br>
+
     <div id="searchResultsOuter" class="searchResultsOuter"></div>
     <input type="checkbox" class="check" name="permanentLinkToggle" id="permanentLinkToggle" checked>
     <label for="permanentLinkToggle" class="check">Make Permanent Link URL Hyperlink<br></label>
+
     <input type="checkbox" class="check" name="imageLinkToggle" id="imageLinkToggle" checked>
     <label for="imageLinkToggle" class="check">Make Image URL Hyperlink<br></label>
+
     <input type="checkbox" class="check" name="explainLinkToggle" id="explainLinkToggle" checked>
     <label for="explainLinkToggle" class="check">Add link to Explain xkcd<br></label>
+
     <input type="checkbox" class="check" name="Link3DToggle" id="Link3DToggle" checked>
     <label for="Link3DToggle" class="check">Add link to 3D version (only comics before 880: Headache)<br></label>
     <input type="checkbox"  class="check" name="titleTextMover" id="titleTextMover" checked>
     <label for="titleTextMover" class="check">Add title text under comic<br></label>
+
     <input type="checkbox" class="check" name="fixRandom" id="fixRandom" checked>
     <label for="fixRandom" class="check">Changes the way comics are randomly picked so it wont<br></label>
     <label for="fixRandom" style="padding-left: 25px" class="check">take you to any of the last 1000 comics you have seen<br></label>
+
     <button class="button" id="clearHistory" style="margin-left: 3px; margin-top: 4px; margin-bottom: 7px;" title="Clear History">Clear History</button><br>
+
     <input type="checkbox"  class="check" name="favouritesButtonToggle" id="favouritesButtonToggle" checked>
     <label for="favouritesButtonToggle" class="check">Add button to add comic to favourites<br></label>
+
     <input type="checkbox" class="check" name="keyboardNavigation" id="keyboardNavigation" checked>
     <label for="keyboardNavigation" class="check">Enable keyboard navigation<br></label>
+
     <input type="checkbox" class="check" name="arrowNavigation" id="arrowNavigation" checked>
     <label for="arrowNavigation" class="check">Enable arrow key navigation<br></label>
 
@@ -64,9 +74,10 @@
         <div id="favourites">
         </div>
     </details>
+
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
         <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+        <input type="hidden" name="encrypted" value="-&#45;&#45;&#45;&#45;BEGIN PKCS7-&#45;&#45;&#45;&#45;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-&#45;&#45;&#45;&#45;END PKCS7-&#45;&#45;&#45;&#45;
 ">
         <input type="submit" class="button" style="margin-top: 5px;" value="Donate" border="0" name="submit" title="Help further this project by donating">
         <img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1">

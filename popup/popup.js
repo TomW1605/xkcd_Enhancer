@@ -246,11 +246,24 @@ function addFavouriteLinks(data) {
     }
 }
 
+/*function reloadPage() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+        var activeTab = arrayOfTabs[0];
+        var activeTabUrl = activeTab.url;
+        if (activeTabUrl.includes('xkcd.com')) {
+            console.log('reload3');
+            var code = 'window.location.reload();';
+            chrome.tabs.executeScript(activeTab.id, {code: code});
+        }
+    });
+}/**/
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log('loaded');
 
     function search() {
         StorageAreaLocal.get(null, function (data) {
+            var noResults;
             try {
                 var comicList = data['comicList'];
                 //console.log(comicList);
@@ -275,13 +288,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (document.getElementById('searchResults').childElementCount == 0) {
-                    var noResults = document.createElement("div");
+                    noResults = document.createElement("div");
                     document.getElementById('searchResults').appendChild(noResults);
 
                     document.getElementById('searchResults').lastElementChild.outerHTML = 'No comics found for the search term "' + searchTerm + '". Please try another search.';
                 }
             } catch (e) {
-                var noResults = document.createElement("div");
+                noResults = document.createElement("div");
                 document.getElementById('searchResults').appendChild(noResults);
 
                 document.getElementById('searchResults').lastElementChild.outerHTML = 'Comic list not loaded. Please reload list';
