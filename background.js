@@ -1,4 +1,3 @@
-
 function has(obj, value) {
     for (var id in obj) {
         if (obj[id] == value) {
