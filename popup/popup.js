@@ -246,18 +246,6 @@ function addFavouriteLinks(data) {
     }
 }
 
-/*function reloadPage() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-        var activeTab = arrayOfTabs[0];
-        var activeTabUrl = activeTab.url;
-        if (activeTabUrl.includes('xkcd.com')) {
-            console.log('reload3');
-            var code = 'window.location.reload();';
-            chrome.tabs.executeScript(activeTab.id, {code: code});
-        }
-    });
-}/**/
-
 document.addEventListener('DOMContentLoaded', function () {
     console.log('loaded');
 
@@ -302,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     $("#clearHistory").click(clearHistory);
     $("#openAllFavourites").click(openAllFavourites);
     $("#clearAllFavourites").click(clearAllFavourites);
@@ -339,9 +326,6 @@ document.addEventListener('DOMContentLoaded', function () {
     StorageAreaLocal.get(null, function (data) {
         fixRandomLink(data);
         addFavouriteLinks(data);
-    });
-
-    StorageAreaLocal.get(null, function (data) {
         for (var i = 0; i < data['favouritesID'].length; i++) {
             $('#deleteButton' + i).click(removeFavourites);
         }
