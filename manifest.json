@@ -21,7 +21,8 @@
       "activeTab",
       "storage",
       "tabs",
-      "http://106.68.201.239:8000/"
+      "http://10.1.1.18/comicList.json",
+      "http://parallaxgame.com/comicList.json"
    ],
    "browser_action": {
      "default_icon": "icon.png",
