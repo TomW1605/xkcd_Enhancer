@@ -62,30 +62,6 @@ StorageAreaSync.get(null, function (syncData) {
             }
         }
 
-        function addToFavourite() {
-            if (localData['favouritesID']) {
-                var favouritesIDList = [];
-                favouritesIDList = favouritesIDList.concat(localData['favouritesID']);
-                if (!has(favouritesIDList, id)) {
-                    favouritesIDList.push(id);
-                    StorageAreaLocal.set({'favouritesID': favouritesIDList});
-                }
-            } else {
-                StorageAreaLocal.set({'favouritesID': [id]});
-            }
-
-            if (localData['favouritesName']) {
-                var favouritesNameList = [];
-                favouritesNameList = favouritesNameList.concat(localData['favouritesName']);
-                if (!has(favouritesNameList, name)) {
-                    favouritesNameList.push(name);
-                    StorageAreaLocal.set({'favouritesName': favouritesNameList});
-                }
-            } else {
-                StorageAreaLocal.set({'favouritesName': [name]});
-            }
-        }
-
         var permanentLinkToggle = syncData['permanentLinkToggle'];
         var imageLinkToggle = syncData['imageLinkToggle'];
         var explainLinkToggle = syncData['explainLinkToggle'];
@@ -131,7 +107,27 @@ StorageAreaSync.get(null, function (syncData) {
                     win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                     win.focus();
                 } else if (e.keyCode == '70') {
-                    addToFavourite();
+                    if (localData['favouritesID']) {
+                        var favouritesIDList = [];
+                        favouritesIDList = favouritesIDList.concat(localData['favouritesID']);
+                        if (!has(favouritesIDList, id)) {
+                            favouritesIDList.push(id);
+                            StorageAreaLocal.set({'favouritesID': favouritesIDList});
+                        }
+                    } else {
+                        StorageAreaLocal.set({'favouritesID': [id]});
+                    }
+
+                    if (localData['favouritesName']) {
+                        var favouritesNameList = [];
+                        favouritesNameList = favouritesNameList.concat(localData['favouritesName']);
+                        if (!has(favouritesNameList, name)) {
+                            favouritesNameList.push(name);
+                            StorageAreaLocal.set({'favouritesName': favouritesNameList});
+                        }
+                    } else {
+                        StorageAreaLocal.set({'favouritesName': [name]});
+                    }
                 }
             } else {
                 if (e.keyCode == '37' || e.keyCode == '78') {
@@ -148,7 +144,27 @@ StorageAreaSync.get(null, function (syncData) {
                     win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
                     win.focus();
                 } else if (e.keyCode == '70') {
-                    addToFavourite();
+                    if (localData['favouritesID']) {
+                        var favouritesIDList = [];
+                        favouritesIDList = favouritesIDList.concat(localData['favouritesID']);
+                        if (!has(favouritesIDList, id)) {
+                            favouritesIDList.push(id);
+                            StorageAreaLocal.set({'favouritesID': favouritesIDList});
+                        }
+                    } else {
+                        StorageAreaLocal.set({'favouritesID': [id]});
+                    }
+
+                    if (localData['favouritesName']) {
+                        var favouritesNameList = [];
+                        favouritesNameList = favouritesNameList.concat(localData['favouritesName']);
+                        if (!has(favouritesNameList, name)) {
+                            favouritesNameList.push(name);
+                            StorageAreaLocal.set({'favouritesName': favouritesNameList});
+                        }
+                    } else {
+                        StorageAreaLocal.set({'favouritesName': [name]});
+                    }
                 }
             }
         }
@@ -242,6 +258,28 @@ StorageAreaSync.get(null, function (syncData) {
 
         document.getElementById('middleContainer').lastElementChild.outerHTML = html;
 
-        document.getElementById('addToFavourite').addEventListener('click', addToFavourite());
+        document.getElementById('addToFavourite').addEventListener('click', function () {
+            if (localData['favouritesID']) {
+                var favouritesIDList = [];
+                favouritesIDList = favouritesIDList.concat(localData['favouritesID']);
+                if (!has(favouritesIDList, id)) {
+                    favouritesIDList.push(id);
+                    StorageAreaLocal.set({'favouritesID': favouritesIDList});
+                }
+            } else {
+                StorageAreaLocal.set({'favouritesID': [id]});
+            }
+
+            if (localData['favouritesName']) {
+                var favouritesNameList = [];
+                favouritesNameList = favouritesNameList.concat(localData['favouritesName']);
+                if (!has(favouritesNameList, name)) {
+                    favouritesNameList.push(name);
+                    StorageAreaLocal.set({'favouritesName': favouritesNameList});
+                }
+            } else {
+                StorageAreaLocal.set({'favouritesName': [name]});
+            }
+        });
     });
 });
