@@ -22,18 +22,18 @@ document.getElementsByTagName("head")[0].appendChild(link);
 StorageAreaSync.get(null, function (syncData) {
     StorageAreaLocal.get(null, function (localData) {
 
-        function randomFix(fixRandom) {
+        function randomFix(fixRandom, id) {
             if (!localData['history']) {
                 StorageAreaLocal.set({'history': [id]});
             } else {
                 var historyList = [];
                 historyList = historyList.concat(localData['history']);
                 if (!has(historyList, id)) {
-                    if (historyList.length < 1000) {
+                    if (historyList.length == 1000) {
+                        historyList.shift();
                         historyList.push(id);
                         StorageAreaLocal.set({'history': historyList});
                     } else {
-                        historyList.shift();
                         historyList.push(id);
                         StorageAreaLocal.set({'history': historyList});
                     }
@@ -82,7 +82,7 @@ StorageAreaSync.get(null, function (syncData) {
         name = name.replace(/^(xkcd: )/g, '');
         console.log(name);
 
-        randomFix(fixRandom);
+        randomFix(fixRandom, id);
 
 
         function checkNav(e) {
@@ -128,6 +128,8 @@ StorageAreaSync.get(null, function (syncData) {
                     } else {
                         StorageAreaLocal.set({'favouritesName': [name]});
                     }
+                    document.getElementById('addToFavourite').setAttribute('disabled','');
+                    document.getElementById('addToFavourite').firstChild.data = 'Added'
                 }
             } else {
                 if (e.keyCode == '37' || e.keyCode == '78') {
@@ -165,6 +167,8 @@ StorageAreaSync.get(null, function (syncData) {
                     } else {
                         StorageAreaLocal.set({'favouritesName': [name]});
                     }
+                    document.getElementById('addToFavourite').setAttribute('disabled','');
+                    document.getElementById('addToFavourite').firstChild.data = 'Added'
                 }
             }
         }
@@ -236,7 +240,11 @@ StorageAreaSync.get(null, function (syncData) {
 
         var favouritesButton = '';
         if (favouritesButtonToggle) {
-            favouritesButton = '<button class="button" id="addToFavourite"/>Add this comic to favourites</button><br>'
+            if (has(localData['favouritesID'], id)) {
+                favouritesButton = '<button class="button" id="addToFavourite" disabled/>This comic is already in your favourites</button><br>';
+            } else {
+                favouritesButton = '<button class="button" id="addToFavourite"/>Add this comic to favourites</button><br>';
+            }
         }
 
         var el = document.getElementById("middleContainer"), child = el.firstChild, nextChild;
@@ -280,6 +288,8 @@ StorageAreaSync.get(null, function (syncData) {
             } else {
                 StorageAreaLocal.set({'favouritesName': [name]});
             }
+            document.getElementById('addToFavourite').setAttribute('disabled','');
+            document.getElementById('addToFavourite').firstChild.data = 'Added'
         });
     });
 });

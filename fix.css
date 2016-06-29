@@ -28,3 +28,12 @@
 .button:focus {
     outline: none;
 }
+
+.button:disabled{
+    background-color: lightgray;
+    color: grey;
+    cursor: default;
+    box-shadow: 0 0 5px 0 gray;
+    -moz-box-shadow: 0 0 5px 0 gray;
+    -webkit-box-shadow: 0 0 5px 0 gray;
+}
