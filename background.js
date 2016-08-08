@@ -7,6 +7,14 @@ function has(obj, value) {
     return false;
 }
 
+/*function removeFavouriteBack(deleteID) {
+    
+}/**/
+
+function importSettings() {
+    
+}
+
 function loadList() {
     var comicList;
     var comicListText;

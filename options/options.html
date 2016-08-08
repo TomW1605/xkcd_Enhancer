@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="options.css" title="Default"/>
+    <script src="jquery.js"></script>
+    <script src="options.js"></script>
+    <title>xkcd Enhancer Settings Import/Export</title>
+</head>
+<body>
+<div id="title" class="box">
+    xkcd Enhancer Settings Import/Export<br>
+</div>
+<div class="box">
+    <div style="margin-top: 5px">
+        Save your current settings, favourites and history as a file on you computer<br>
+        (the file will be saved as 'xkcdEnhancerSettings date time.json')
+    </div>
+    <button class="button" id="export" title="Export settings" style="margin-top: 5px">Export settings</button><br><br>
+    <div>
+        Import your saved settings from the file<br>
+        (on/off settings wil be overridden and history and favourites will be merged)
+    </div>
+    <button class="button" id="choose" title="Choose File">Choose File</button>
+    <button class="button" id="import" title="Import settings" disabled>Import settings</button><br>
+    <div id="filename" style="padding-bottom: 5px">
+        Please choose a file to import
+    </div>
+    Note: This page only contains import/export options. For all other settings see the popup window.
+</div>
+<input type="file" id="settingsFile" name="files[]" accept=".json"/>
+</body>
+</html>

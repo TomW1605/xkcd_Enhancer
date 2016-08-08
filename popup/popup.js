@@ -1,11 +1,15 @@
-var StorageAreaLocal = chrome.storage.local;
-var StorageAreaSync = chrome.storage.sync;
+const StorageAreaSync = chrome.storage.sync;
+const StorageAreaLocal = chrome.storage.local;
 
-console = chrome.extension.getBackgroundPage().console;
+//console = chrome.extension.getBackgroundPage().console;
 
 var loadList = function(){
     chrome.extension.getBackgroundPage().loadList();
 };
+
+/*function removeFavourite(id){
+    console.log(chrome.extension.getViews()); //..removeFavouriteContent(id);
+}/**/
 
 function has(obj, value) {
     for (var id in obj) {
@@ -302,6 +306,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     $("#reloadButton").click(loadList);
+    
+    $('#importExport').click(function(){
+        chrome.runtime.openOptionsPage()
+    });
 
     retrieve('permanentLinkToggle');
     retrieve('imageLinkToggle');
@@ -322,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('fixRandom').addEventListener('change', fixRandomToggled);
     document.getElementById('keyboardNavigation').addEventListener('change', keyboardNavigationToggled);
     document.getElementById('arrowNavigation').addEventListener('change', arrowNavigationToggled);
-
+    
     StorageAreaLocal.get(null, function (data) {
         fixRandomLink(data);
         addFavouriteLinks(data);

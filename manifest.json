@@ -2,8 +2,12 @@
    "manifest_version": 2,
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
-   "version": "6.5",
-   "options_page": "popup/popup.html",
+   "version": "7.1",
+   "options_ui": {
+      "page": "options/options.html",
+      "chrome_style": false,
+      "open_in_tab": true
+   },
    "content_scripts": [ {
       "matches": ["http://xkcd.com/*", "http://xkcd.org/*", "http://xkcd.net/*", "http://www.xkcd.com/*", "http://www.xkcd.org/*", "http://www.xkcd.net/*", "https://xkcd.com/*", "https://xkcd.org/*", "https://xkcd.net/*", "https://www.xkcd.com/*", "https://www.xkcd.org/*", "https://www.xkcd.net/*"],
       "css": ["fix.css"],
@@ -21,6 +25,7 @@
       "activeTab",
       "storage",
       "tabs",
+      "downloads",
       "http://xkcdenhancer.hopto.org/",
       "http://parallaxgame.com/"
    ],
@@ -29,5 +34,5 @@
      "default_title": "xkcd Enhancer",
      "default_popup": "popup/popup.html"
    },
-   "web_accessible_resources": ["fix.css", "script.js"]
+   "web_accessible_resources": ["fix.css", "script.js", "popup/jquery.js"]
 }

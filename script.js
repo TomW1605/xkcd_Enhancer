@@ -12,6 +12,20 @@ function has(obj, value) {
     return false;
 }
 
+/*function removeFavouriteContent(deleteID) {
+    var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
+    id = id.replace(/^([\s\S]*)(com\/)/g, '');
+    id = id.replace(/(\/)([\s\S]*)$/g, '');
+    id = parseInt(id) + 1;
+    console.log(id);
+    console.log(deleteID);
+    
+    if (id == deleteID) {
+        document.getElementById('addToFavourite').removeAttribute('disabled');
+        document.getElementById('addToFavourite').firstChild.data = 'Add this comic to favourites'
+    }
+}/**/
+
 var link;
 link= document.createElement("link");
 link.href = chrome.extension.getURL("fix.css");
@@ -83,7 +97,6 @@ StorageAreaSync.get(null, function (syncData) {
         console.log(name);
 
         randomFix(fixRandom, id);
-
 
         function checkNav(e) {
             e = e || window.event;
@@ -216,7 +229,7 @@ StorageAreaSync.get(null, function (syncData) {
         var imageURL = html;
         imageURL = imageURL.replace(/^([\s\S]*)(hotlinking\/embedding\): )/g, '');
         imageURL = imageURL.replace(/(<div id="transcript")([\s\S]*)$/g, '');
-        console.log(imageURL);
+        //console.log(imageURL);
 
         var permanentLink = 'Permanent link to this comic: http://xkcd.com/' + id + '/';
         if (permanentLinkToggle) {
