@@ -28,7 +28,7 @@ function has(obj, value) {
 
 var link;
 link= document.createElement("link");
-link.href = chrome.extension.getURL("fix.css");
+link.href = chrome.extension.getURL("fix.min.css");
 link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
@@ -37,19 +37,19 @@ StorageAreaSync.get(null, function (syncData) {
     StorageAreaLocal.get(null, function (localData) {
 
         function randomFix(fixRandom, id) {
-            if (!localData['history']) {
-                StorageAreaLocal.set({'history': [id]});
+            if (!syncData['history']) {
+                StorageAreaSync.set({'history': [id]});
             } else {
                 var historyList = [];
-                historyList = historyList.concat(localData['history']);
+                historyList = historyList.concat(syncData['history']);
                 if (!has(historyList, id)) {
                     if (historyList.length == 1000) {
                         historyList.shift();
                         historyList.push(id);
-                        StorageAreaLocal.set({'history': historyList});
+                        StorageAreaSync.set({'history': historyList});
                     } else {
                         historyList.push(id);
-                        StorageAreaLocal.set({'history': historyList});
+                        StorageAreaSync.set({'history': historyList});
                     }
                 }
             }
@@ -114,6 +114,7 @@ StorageAreaSync.get(null, function (syncData) {
                     self.location = comicNav[0].children[3].children[0].href;
                 } else if (e.keyCode == '32' || e.keyCode == '82') {
                     //rand
+                    e.preventDefault();
                     self.location = comicNav[0].children[2].children[0].href;
                 } else if (e.keyCode == '69') {
                     //explain
@@ -152,6 +153,7 @@ StorageAreaSync.get(null, function (syncData) {
                     //prev
                     self.location = comicNav[0].children[3].children[0].href;
                 } else if (e.keyCode == '38' || e.keyCode == '32' || e.keyCode == '82') {
+                    e.preventDefault();
                     //rand
                     self.location = comicNav[0].children[2].children[0].href;
                 } else if (e.keyCode == '69') {
@@ -254,7 +256,7 @@ StorageAreaSync.get(null, function (syncData) {
         var favouritesButton = '';
         if (favouritesButtonToggle) {
             if (has(localData['favouritesID'], id)) {
-                favouritesButton = '<button class="button" id="addToFavourite" disabled/>This comic is already in your favourites</button><br>';
+                favouritesButton = '<button class="deleteButton" id="removeFromFavourite"/>Remove this comic from favourites</button><br>';
             } else {
                 favouritesButton = '<button class="button" id="addToFavourite"/>Add this comic to favourites</button><br>';
             }

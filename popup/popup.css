@@ -25,8 +25,7 @@ body {
     box-shadow: 0 0 5px 0 gray;
     -moz-box-shadow: 0 0 5px 0 gray;
     -webkit-box-shadow: 0 0 5px 0 gray;
-    margin-top: -3px;
-    margin-bottom: 5px;
+    margin-top: 5px;
     cursor: pointer;
 }
 
@@ -55,6 +54,10 @@ body {
     margin-bottom: 5px;
     width: 280px;
     cursor: text;
+}
+
+::placeholder { /* WebKit, Blink, Edge */
+    color:    #FFF;
 }
 
 .searchField:focus {
@@ -114,11 +117,57 @@ body {
     cursor: pointer;
 }
 
+
+.favouritesList {
+    /*background-color: #6E7B91;
+    color: #FFF;
+    border: 1.5px solid #333;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 0 5px 0 gray;
+    -moz-box-shadow: 0 0 5px 0 gray;
+    -webkit-box-shadow: 0 0 5px 0 gray;*/
+    width: 90px;
+    padding: 2px 5px;
+    margin-top: 8px;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+/*.favouritesList:hover {
+    background-color: #FFF;
+    color: #6E7B91;
+}*/
+
+.favouritesList[open] {
+    padding: 5px;
+    margin-top: 5px;
+    width: auto;
+    /*background-color: #8292AD;*/
+    cursor: auto;
+}
+
+/*.favouritesList[open]:hover {
+    background-color: #8292AD;
+    color: #FFF;
+}*/
+
 .favourites {
     cursor: pointer;
     width: 90px;
 }
+/*
+.favouritesList:hover > .favourites{
+    color: #6E7B91;
+}
 
+.favouritesList[open]:hover > .favourites{
+    color: #FFF;
+}
+*/
 .favouritesLinks, .favouritesLinks:visited, .favouritesLinks:link {
     background-color: #6E7B91;
     color: #FFF;

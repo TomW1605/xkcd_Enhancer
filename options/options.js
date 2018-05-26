@@ -27,9 +27,31 @@ function importSettings() {
             StorageAreaSync.set({'keyboardNavigation': sync['keyboardNavigation']});
             StorageAreaSync.set({'permanentLinkToggle': sync['permanentLinkToggle']});
             StorageAreaSync.set({'titleTextMover': sync['titleTextMover']});
+            StorageAreaSync.set({'newBadge': sync['newBadge']});
+            StorageAreaSync.set({'newNotification': sync['newNotification']});
+
+
+            StorageAreaLocal.get(null, function (syncData) {
+                var historyList = [];
+                historyList = historyList.concat(syncData['history']);
+                for (var i = 0; i < sync['history'].length; i++) {
+                    var id = sync['history'][i];
+                    if (!has(historyList, id)) {
+                        if (historyList.length == 1000) {
+                            historyList.shift();
+                            historyList.push(id);
+                        } else {
+                            historyList.push(id);
+                        }
+                    }
+                }
+                if (historyList[0] == null) {
+                    historyList.shift();
+                }
+                StorageAreaSync.set({'history': historyList});
+            });
             
             var local = settings['local'];
-
             StorageAreaLocal.get(null, function (localData) {
                 var favouritesIDList = [];
                 favouritesIDList = favouritesIDList.concat(localData['favouritesID']);
@@ -54,24 +76,6 @@ function importSettings() {
                 }
                 StorageAreaLocal.set({'favouritesID': favouritesIDList});
                 StorageAreaLocal.set({'favouritesName': favouritesNameList});
-
-                var historyList = [];
-                historyList = historyList.concat(localData['history']);
-                for (var i = 0; i < local['history'].length; i++) {
-                    var id = local['history'][i];
-                    if (!has(historyList, id)) {
-                        if (historyList.length == 1000) {
-                            historyList.shift();
-                            historyList.push(id);
-                        } else {
-                            historyList.push(id);
-                        }
-                    }
-                }
-                if (historyList[0] == null) {
-                    historyList.shift();
-                }
-                StorageAreaLocal.set({'history': historyList});
             });
         }
     }(e[0]), i.readAsText(e[0])
@@ -89,7 +93,8 @@ function exportSettings() {
                 'local':local
             };
             console.log(result);
-            var d = new Date().toLocaleString().replace('/','-').replace('/','-').replace(':','-').replace(':','-').replace(',','');
+            //var d = new Date().toLocaleString().replace('/','-').replace('/','-').replace(':','-').replace(':','-').replace(',','');
+            var d = moment().format('YYYYMMDDhhmmss');
             var doc = URL.createObjectURL(new Blob([JSON.stringify(result)], {type: 'application/octet-binary'}));
             chrome.downloads.download({url:doc,filename:'xkcdEnhancerSettings '+d+'.json'})
         });

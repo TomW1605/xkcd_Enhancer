@@ -1,7 +1,7 @@
 const StorageAreaSync = chrome.storage.sync;
 const StorageAreaLocal = chrome.storage.local;
 
-//console = chrome.extension.getBackgroundPage().console;
+//console = chrome.extension.getBackgroundPage().console;asdf
 
 var loadList = function(){
     chrome.extension.getBackgroundPage().loadList();
@@ -175,10 +175,39 @@ function arrowNavigationToggled() {
     StorageAreaSync.set({'arrowNavigation': arrowNavigation});
 }
 
+var newBadge;
+function newBadgeToggled() {
+    var checkbox = document.getElementById('newBadge').checked;
+    if (!checkbox) {
+        console.log('<br>newBadge: off');
+        document.getElementById('newBadge').removeAttribute("checked");
+        newBadge = false;
+    } else {
+        console.log('<br>newBadge: on');
+        document.getElementById('newBadge').setAttribute("checked", "");
+        newBadge = true;
+    }
+    StorageAreaSync.set({'newBadge': newBadge});
+}
+
+var newNotification;
+function newNotificationToggled() {
+    var checkbox = document.getElementById('newNotification').checked;
+    if (!checkbox) {
+        console.log('<br>newNotification: off');
+        document.getElementById('newNotification').removeAttribute("checked");
+        newNotification = false;
+    } else {
+        console.log('<br>newNotification: on');
+        document.getElementById('newNotification').setAttribute("checked", "");
+        newNotification = true;
+    }
+    StorageAreaSync.set({'newNotification': newNotification});
+}
 
 function clearHistory() {
     console.log('history cleared');
-    StorageAreaLocal.set({'history': []});
+    StorageAreaSync.set({'history': []});
 }
 
 function clearAllFavourites() {
@@ -318,6 +347,8 @@ document.addEventListener('DOMContentLoaded', function () {
     retrieve('titleTextMover');
     retrieve('fixRandom');
     retrieve('favouritesButtonToggle');
+    retrieve('newBadge');
+    retrieve('newNotification');
     retrieve('keyboardNavigation');
     retrieve('arrowNavigation');
 
@@ -330,7 +361,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('fixRandom').addEventListener('change', fixRandomToggled);
     document.getElementById('keyboardNavigation').addEventListener('change', keyboardNavigationToggled);
     document.getElementById('arrowNavigation').addEventListener('change', arrowNavigationToggled);
-    
+    document.getElementById('newBadge').addEventListener('change', newBadgeToggled);
+    document.getElementById('newNotification').addEventListener('change', newNotificationToggled);
+
     StorageAreaLocal.get(null, function (data) {
         fixRandomLink(data);
         addFavouriteLinks(data);

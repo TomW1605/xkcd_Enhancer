@@ -37,3 +37,14 @@
     -moz-box-shadow: 0 0 5px 0 gray;
     -webkit-box-shadow: 0 0 5px 0 gray;
 }
+
+.deleteButton {
+    padding: 1.5px 3px 1.5px 3px;
+    background-color: #9d5858;
+    text-align: center;
+    margin-right: 2px;
+}
+
+.deleteButton:hover, .deleteButton:active{
+    color: #9d5858;
+}
