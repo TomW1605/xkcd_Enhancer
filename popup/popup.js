@@ -3,9 +3,9 @@ const StorageAreaLocal = chrome.storage.local;
 
 //console = chrome.extension.getBackgroundPage().console;asdf
 
-var loadList = function(){
+/*var loadList = function(){
     chrome.extension.getBackgroundPage().loadList();
-};
+};*/
 
 /*function removeFavourite(id){
     console.log(chrome.extension.getViews()); //..removeFavouriteContent(id);
@@ -175,7 +175,7 @@ function arrowNavigationToggled() {
     StorageAreaSync.set({'arrowNavigation': arrowNavigation});
 }
 
-var newBadge;
+/*var newBadge;
 function newBadgeToggled() {
     var checkbox = document.getElementById('newBadge').checked;
     if (!checkbox) {
@@ -203,7 +203,7 @@ function newNotificationToggled() {
         newNotification = true;
     }
     StorageAreaSync.set({'newNotification': newNotification});
-}
+}*/
 
 function clearHistory() {
     console.log('history cleared');
@@ -282,7 +282,7 @@ function addFavouriteLinks(data) {
 document.addEventListener('DOMContentLoaded', function () {
     console.log('loaded');
 
-    function search() {
+    /*function search() {
         StorageAreaLocal.get(null, function (data) {
             var noResults;
             try {
@@ -321,20 +321,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('searchResults').lastElementChild.outerHTML = 'Comic list not loaded. Please reload list';
             }
         });
-    }
+    }*/
 
     $("#clearHistory").click(clearHistory);
     $("#openAllFavourites").click(openAllFavourites);
     $("#clearAllFavourites").click(clearAllFavourites);
 
-    $("#SearchButton").click(search);
+    /*$("#SearchButton").click(search);
     $("#SearchField").keyup(function (event) {
         if (event.keyCode == 13) {
             $("#SearchButton").click();
             return false;
         }
     });
-    $("#reloadButton").click(loadList);
+    $("#reloadButton").click(loadList);*/
     
     $('#importExport').click(function(){
         chrome.runtime.openOptionsPage()
@@ -347,8 +347,8 @@ document.addEventListener('DOMContentLoaded', function () {
     retrieve('titleTextMover');
     retrieve('fixRandom');
     retrieve('favouritesButtonToggle');
-    retrieve('newBadge');
-    retrieve('newNotification');
+    /*retrieve('newBadge');
+    retrieve('newNotification');*/
     retrieve('keyboardNavigation');
     retrieve('arrowNavigation');
 
@@ -361,8 +361,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('fixRandom').addEventListener('change', fixRandomToggled);
     document.getElementById('keyboardNavigation').addEventListener('change', keyboardNavigationToggled);
     document.getElementById('arrowNavigation').addEventListener('change', arrowNavigationToggled);
-    document.getElementById('newBadge').addEventListener('change', newBadgeToggled);
-    document.getElementById('newNotification').addEventListener('change', newNotificationToggled);
+    /*document.getElementById('newBadge').addEventListener('change', newBadgeToggled);
+    document.getElementById('newNotification').addEventListener('change', newNotificationToggled);*/
 
     StorageAreaLocal.get(null, function (data) {
         fixRandomLink(data);

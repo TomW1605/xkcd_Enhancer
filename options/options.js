@@ -27,8 +27,8 @@ function importSettings() {
             StorageAreaSync.set({'keyboardNavigation': sync['keyboardNavigation']});
             StorageAreaSync.set({'permanentLinkToggle': sync['permanentLinkToggle']});
             StorageAreaSync.set({'titleTextMover': sync['titleTextMover']});
-            StorageAreaSync.set({'newBadge': sync['newBadge']});
-            StorageAreaSync.set({'newNotification': sync['newNotification']});
+            /*StorageAreaSync.set({'newBadge': sync['newBadge']});
+            StorageAreaSync.set({'newNotification': sync['newNotification']});*/
 
 
             StorageAreaLocal.get(null, function (syncData) {
