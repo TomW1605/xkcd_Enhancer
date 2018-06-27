@@ -19,6 +19,40 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
+function addFavourite(syncData, StorageAreaSync)
+{
+    if (syncData['favourites'])
+    {
+        if (syncData['favourites'].length == 1637)
+        {
+            document.getElementById('addFavourite').setAttribute('disabled', '');
+            document.getElementById('addFavourite').firstChild.data = 'Too many favourites';
+            alert("You have added too many favourites.The max is 1637. " +
+                "This is due to the size limit on chrome sync storage. " +
+                "If you want to add more please remove some old ones first. " +
+                "If this is a problem please contact the developer at xkcd.Enhancer@gmail.com");
+        }
+        else
+        {
+            var favouritesList = [];
+            favouritesList = favouritesList.concat(syncData['favourites']);
+            if (!has(favouritesList, id))
+            {
+                favouritesList.push(id);
+                StorageAreaSync.set({'favourites': favouritesList});
+            }
+            document.getElementById('addFavourite').setAttribute('disabled', '');
+            document.getElementById('addFavourite').firstChild.data = 'Added';
+        }
+    }
+    else
+    {
+        StorageAreaSync.set({'favourites': [id]});
+        document.getElementById('addFavourite').setAttribute('disabled', '');
+        document.getElementById('addFavourite').firstChild.data = 'Added';
+    }
+}
+
 /*
 function removeFavouriteContent(deleteID)
 {
@@ -152,7 +186,7 @@ StorageAreaSync.get(null, function (syncData)
             }
             else if (e.keyCode == '70')
             {
-                addFavourite();
+                addFavourite(syncData, StorageAreaSync);
             }
         }
         else
@@ -181,7 +215,7 @@ StorageAreaSync.get(null, function (syncData)
             }
             else if (e.keyCode == '70')
             {
-                addFavourite();
+                addFavourite(syncData, StorageAreaSync);
             }
         }
     }
@@ -303,41 +337,6 @@ StorageAreaSync.get(null, function (syncData)
 
     document.getElementById('middleContainer').lastElementChild.outerHTML = html;
 
-    document.getElementById('addFavourite').addEventListener('click', addFavourite());
-
-    function addFavourite()
-    {
-        if (syncData['favourites'])
-        {
-            if (syncData['favourites'].length == 1637)
-            {
-                document.getElementById('addFavourite').setAttribute('disabled', '');
-                document.getElementById('addFavourite').firstChild.data = 'Too many favourites';
-                alert("You have added too many favourites.The max is 1637. " +
-                      "This is due to the size limit on chrome sync storage. " +
-                      "If you want to add more please remove some old ones first. " +
-                      "If this is a problem please contact the developer at xkcd.Enhancer@gmail.com");
-            }
-            else
-            {
-                var favouritesList = [];
-                favouritesList = favouritesList.concat(syncData['favourites']);
-                if (!has(favouritesList, id))
-                {
-                    favouritesList.push(id);
-                    StorageAreaSync.set({'favourites': favouritesList});
-                }
-                document.getElementById('addFavourite').setAttribute('disabled', '');
-                document.getElementById('addFavourite').firstChild.data = 'Added';
-            }
-        }
-        else
-        {
-            StorageAreaSync.set({'favourites': [id]});
-            document.getElementById('addFavourite').setAttribute('disabled', '');
-            document.getElementById('addFavourite').firstChild.data = 'Added';
-        }
-    }
-
+    document.getElementById('addFavourite').addEventListener('click', addFavourite(syncData, StorageAreaSync));
     //});
 });
