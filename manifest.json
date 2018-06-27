@@ -2,7 +2,7 @@
    "manifest_version": 2,
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
-   "version": "7.6",
+   "version": "7.7",
    "options_ui": {
       "page": "options/options.html",
       "chrome_style": false,
@@ -14,7 +14,7 @@
       "js": ["jquery.min.js", "script.js"]
    } ],
    "background": {
-      "scripts": ["background.js"],
+      "scripts": ["background.min.js"],
       "persistent": false
    },
    "description": "This small extension will revolutionise your xkcd viewing experience.",
