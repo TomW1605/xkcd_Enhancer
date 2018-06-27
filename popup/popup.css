@@ -56,9 +56,10 @@ body {
     cursor: text;
 }
 
-::placeholder { /* WebKit, Blink, Edge */
+/*for search placeholder
+::placeholder {
     color:    #FFF;
-}
+}*/
 
 .searchField:focus {
     background-color: #FFF;

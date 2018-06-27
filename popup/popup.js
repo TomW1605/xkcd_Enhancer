@@ -1,7 +1,7 @@
 const StorageAreaSync = chrome.storage.sync;
 const StorageAreaLocal = chrome.storage.local;
 
-//console = chrome.extension.getBackgroundPage().console;asdf
+//console = chrome.extension.getBackgroundPage().console;
 
 /*var loadList = function(){
     chrome.extension.getBackgroundPage().loadList();
@@ -11,27 +11,35 @@ const StorageAreaLocal = chrome.storage.local;
     console.log(chrome.extension.getViews()); //..removeFavouriteContent(id);
 }/**/
 
-function has(obj, value) {
-    for (var id in obj) {
-        if (obj[id] == value) {
+function has(obj, value)
+{
+    for (var id in obj)
+    {
+        if (obj[id] == value)
+        {
             return true;
         }
     }
     return false;
 }
 
-function OpenInNewTab(url) {
+function OpenInNewTab(url)
+{
     var win = window.open(url, '_blank');
     win.focus();
 }
 
 
-function retrieve(name) {
-    StorageAreaSync.get(null, function (data) {
+function retrieve(name)
+{
+    StorageAreaSync.get(null, function (data)
+    {
         console.log(data[name]);
-        if (!data[name]) {
+        if (!data[name])
+        {
             document.getElementById(name).removeAttribute("checked");
-            if (name == 'keyboardNavigation') {
+            if (name == 'keyboardNavigation')
+            {
                 document.getElementById('arrowNavigation').disabled = true;
             }
         }
@@ -39,13 +47,17 @@ function retrieve(name) {
 }
 
 var permanentLinkToggle;
-function permanentLinkCheckboxToggled() {
+function permanentLinkCheckboxToggled()
+{
     var checkbox = document.getElementById('permanentLinkToggle').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>permanentLinkToggle: off');
         document.getElementById('permanentLinkToggle').removeAttribute("checked");
         permanentLinkToggle = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>permanentLinkToggle: on');
         document.getElementById('permanentLinkToggle').setAttribute("checked", "");
         permanentLinkToggle = true;
@@ -54,13 +66,17 @@ function permanentLinkCheckboxToggled() {
 }
 
 var imageLinkToggle;
-function imageLinkToggleCheckboxToggled() {
+function imageLinkToggleCheckboxToggled()
+{
     var checkbox = document.getElementById('imageLinkToggle').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>imageLinkToggle: off');
         document.getElementById('imageLinkToggle').removeAttribute("checked");
         imageLinkToggle = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>imageLinkToggle: on');
         document.getElementById('imageLinkToggle').setAttribute("checked", "");
         imageLinkToggle = true;
@@ -69,13 +85,17 @@ function imageLinkToggleCheckboxToggled() {
 }
 
 var explainLinkToggle;
-function explainLinkToggleCheckboxToggled() {
+function explainLinkToggleCheckboxToggled()
+{
     var checkbox = document.getElementById('explainLinkToggle').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>explainLinkToggle: off');
         document.getElementById('explainLinkToggle').removeAttribute("checked");
         explainLinkToggle = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>explainLinkToggle: on');
         document.getElementById('explainLinkToggle').setAttribute("checked", "");
         explainLinkToggle = true;
@@ -84,13 +104,17 @@ function explainLinkToggleCheckboxToggled() {
 }
 
 var Link3DToggle;
-function Link3DToggleCheckboxToggled() {
+function Link3DToggleCheckboxToggled()
+{
     var checkbox = document.getElementById('Link3DToggle').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>Link3DToggle: off');
         document.getElementById('Link3DToggle').removeAttribute("checked");
         Link3DToggle = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>Link3DToggle: on');
         document.getElementById('Link3DToggle').setAttribute("checked", "");
         Link3DToggle = true;
@@ -99,13 +123,17 @@ function Link3DToggleCheckboxToggled() {
 }
 
 var titleTextMover;
-function titleTextMoverToggled() {
+function titleTextMoverToggled()
+{
     var checkbox = document.getElementById('titleTextMover').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>titleTextMover: off');
         document.getElementById('titleTextMover').removeAttribute("checked");
         titleTextMover = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>titleTextMover: on');
         document.getElementById('titleTextMover').setAttribute("checked", "");
         titleTextMover = true;
@@ -114,13 +142,17 @@ function titleTextMoverToggled() {
 }
 
 var fixRandom;
-function fixRandomToggled() {
+function fixRandomToggled()
+{
     var checkbox = document.getElementById('fixRandom').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>fixRandom: off');
         document.getElementById('fixRandom').removeAttribute("checked");
         fixRandom = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>fixRandom: on');
         document.getElementById('fixRandom').setAttribute("checked", "");
         fixRandom = true;
@@ -129,13 +161,17 @@ function fixRandomToggled() {
 }
 
 var favouritesButton;
-function favouritesButtonToggle() {
+function favouritesButtonToggle()
+{
     var checkbox = document.getElementById('favouritesButtonToggle').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>favouritesButton: off');
         document.getElementById('favouritesButtonToggle').removeAttribute("checked");
         favouritesButton = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>favouritesButton: on');
         document.getElementById('favouritesButtonToggle').setAttribute("checked", "");
         favouritesButton = true;
@@ -144,14 +180,18 @@ function favouritesButtonToggle() {
 }
 
 var keyboardNavigation;
-function keyboardNavigationToggled() {
+function keyboardNavigationToggled()
+{
     var checkbox = document.getElementById('keyboardNavigation').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>keyboardNavigation: off');
         document.getElementById('keyboardNavigation').removeAttribute("checked");
         document.getElementById('arrowNavigation').disabled = true;
         keyboardNavigation = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>keyboardNavigation: on');
         document.getElementById('keyboardNavigation').setAttribute("checked", "");
         document.getElementById('arrowNavigation').disabled = false;
@@ -161,13 +201,17 @@ function keyboardNavigationToggled() {
 }
 
 var arrowNavigation;
-function arrowNavigationToggled() {
+function arrowNavigationToggled()
+{
     var checkbox = document.getElementById('arrowNavigation').checked;
-    if (!checkbox) {
+    if (!checkbox)
+    {
         console.log('<br>arrowNavigation: off');
         document.getElementById('arrowNavigation').removeAttribute("checked");
         arrowNavigation = false;
-    } else {
+    }
+    else
+    {
         console.log('<br>arrowNavigation: on');
         document.getElementById('arrowNavigation').setAttribute("checked", "");
         arrowNavigation = true;
@@ -205,28 +249,35 @@ function newNotificationToggled() {
     StorageAreaSync.set({'newNotification': newNotification});
 }*/
 
-function clearHistory() {
+function clearHistory()
+{
     console.log('history cleared');
     StorageAreaSync.set({'history': []});
 }
 
-function clearAllFavourites() {
+function clearAllFavourites()
+{
     StorageAreaLocal.set({'favouritesID': []});
     StorageAreaLocal.set({'favouritesName': []});
-    while (document.getElementById('favourites').hasChildNodes()) {
+    while (document.getElementById('favourites').hasChildNodes())
+    {
         document.getElementById('favourites').removeChild(document.getElementById('favourites').lastChild);
     }
 }
 
-function openAllFavourites() {
-    StorageAreaLocal.get(null, function (data) {
-        for (var i = 0; i < data['favouritesID'].length; i++) {
+function openAllFavourites()
+{
+    StorageAreaLocal.get(null, function (data)
+    {
+        for (var i = 0; i < data['favouritesID'].length; i++)
+        {
             OpenInNewTab('http://xkcd.com/' + data['favouritesID'][i] + '/')
         }
     });
 }
 
-function removeFavourites(data) {
+function removeFavourites(data)
+{
     console.log(data);
     var index = parseInt(data['currentTarget']['attributes'][0]['nodeValue'].replace('deleteButton', ''));
 
@@ -234,52 +285,52 @@ function removeFavourites(data) {
     document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
     document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
 
-    StorageAreaLocal.get(null, function (data) {
-        var favouritesIDList = [];
-        favouritesIDList = favouritesIDList.concat(data['favouritesID']);
-        favouritesIDList.splice(index, 1);
-        StorageAreaLocal.set({'favouritesID': favouritesIDList});
-
-        var favouritesNameList = [];
-        favouritesNameList = favouritesNameList.concat(data['favouritesName']);
-        favouritesNameList.splice(index, 1);
-        StorageAreaLocal.set({'favouritesName': favouritesNameList});
+    StorageAreaSync.get(null, function (data)
+    {
+        var favouritesList = [];
+        favouritesList = favouritesList.concat(data['favourites']);
+        favouritesList.splice(index, 1);
+        StorageAreaSync.set({'favourites': favouritesList});
     });
 }
 
-function fixRandomLink(data) {
-    var historyList = data['history'];
+function fixRandomLink(historyList)
+{
+    $.getJSON("http://xkcd.com/info.0.json", function (latest)
+    {
+        const latestId = latest["num"];
+        var isNew = true;
 
-    const latestId = (function () {
-        const refId = 1411;
-        const refTime = new Date(2014, 7, 22).getTime();
-
-        const daysSinceRef = (Date.now() - refTime) / (1000 * 60 * 60 * 24) | 0;
-
-        return refId + 3 / 7 * daysSinceRef | 0;
-    })();
-
-    var isNew = true;
-
-    while (isNew) {
-        var random = 1 + Math.random() * (latestId - 1) | 0;
-        if (!has(historyList, random) && !(random == 404)) {
-            document.getElementById('random').setAttribute('href', 'http://xkcd.com/' + random + '/');
-            isNew = false;
+        while (isNew)
+        {
+            var random = 1 + Math.random() * (latestId - 1) | 0;
+            if (!has(historyList, random) && !(random == 404))
+            {
+                document.getElementById('random').setAttribute('href', 'http://xkcd.com/' + random + '/');
+                isNew = false;
+            }
         }
+    });
+}
+
+function addFavouriteLinks(list)
+{
+    for (var i = 0; i < list['favourites'].length; i++)
+    {
+        $.getJSON("http://xkcd.com/" + list['favourites'][i] + "/info.0.json", function (data)
+        {
+            var id = data["num"];
+            var name = data["title"];
+            var para = document.createElement("div");
+            document.getElementById('favourites').appendChild(para);
+
+            document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton" title="Remove comic \'' + id + ': ' + name + '\' from your favourites">&#9003;</button><a id="favouriteLink' + i + '" title="' + id + ': ' + name + '" href="http://xkcd.com/' + id + '/" target="_blank" class="favouritesLinks">' + id + ': ' + name + '</a><br id="favouriteBreak' + i + '">';
+        });
     }
 }
 
-function addFavouriteLinks(data) {
-    for (var i = 0; i < data['favouritesID'].length; i++) {
-        var para = document.createElement("div");
-        document.getElementById('favourites').appendChild(para);
-
-        document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton" title="Remove comic \'' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '\' from your favourites">&#9003;</button><a id="favouriteLink' + i + '" title="' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '" href="http://xkcd.com/' + data['favouritesID'][i] + '/" target="_blank" class="favouritesLinks">' + data['favouritesID'][i] + ': ' + data['favouritesName'][i] + '</a><br id="favouriteBreak' + i + '">';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function ()
+{
     console.log('loaded');
 
     /*function search() {
@@ -335,8 +386,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     $("#reloadButton").click(loadList);*/
-    
-    $('#importExport').click(function(){
+
+    $('#importExport').click(function ()
+    {
         chrome.runtime.openOptionsPage()
     });
 
@@ -364,10 +416,16 @@ document.addEventListener('DOMContentLoaded', function () {
     /*document.getElementById('newBadge').addEventListener('change', newBadgeToggled);
     document.getElementById('newNotification').addEventListener('change', newNotificationToggled);*/
 
-    StorageAreaLocal.get(null, function (data) {
-        fixRandomLink(data);
+    StorageAreaSync.get(null, function (data)
+    {
+        fixRandomLink(data['history']);
+    });
+
+    StorageAreaSync.get(null, function (data)
+    {
         addFavouriteLinks(data);
-        for (var i = 0; i < data['favouritesID'].length; i++) {
+        for (var i = 0; i < data['favourites'].length; i++)
+        {
             $('#deleteButton' + i).click(removeFavourites);
         }
     });
