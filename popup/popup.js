@@ -23,6 +23,10 @@ function has(obj, value)
     return false;
 }
 
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
 function OpenInNewTab(url)
 {
     var win = window.open(url, '_blank');
@@ -303,7 +307,7 @@ function fixRandomLink(historyList)
 
         while (isNew)
         {
-            var random = 1 + Math.random() * (latestId - 1) | 0;
+            var random = getRndInteger(1,latestId);
             if (!has(historyList, random) && !(random == 404))
             {
                 document.getElementById('random').setAttribute('href', 'http://xkcd.com/' + random + '/');
