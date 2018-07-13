@@ -40,8 +40,14 @@ function getRndInteger(min, max) {
 
 function OpenInNewTab(url)
 {
-    var win = window.open(url, '_blank');
-    win.focus();
+    chrome.tabs.create(
+        {
+            'url': url,
+            'active': false
+        }
+    );
+    //var win = window.open(url, '_blank');
+    //win.focus();
 }
 
 
@@ -272,8 +278,7 @@ function clearHistory()
 
 function clearAllFavourites()
 {
-    StorageAreaLocal.set({'favouritesID': []});
-    StorageAreaLocal.set({'favouritesName': []});
+    StorageAreaSync.set({'favourites': []});
     while (document.getElementById('favourites').hasChildNodes())
     {
         document.getElementById('favourites').removeChild(document.getElementById('favourites').lastChild);
@@ -282,11 +287,12 @@ function clearAllFavourites()
 
 function openAllFavourites()
 {
-    StorageAreaLocal.get(null, function (data)
+    StorageAreaSync.get(null, function (data)
     {
-        for (var i = 0; i < data['favouritesID'].length; i++)
+        console.log(data);
+        for (var i = 0; i < data['favourites'].length; i++)
         {
-            OpenInNewTab('http://xkcd.com/' + data['favouritesID'][i] + '/')
+            OpenInNewTab('http://xkcd.com/' + data['favourites'][i] + '/')
         }
     });
 }
@@ -307,8 +313,9 @@ function removeFavourites(data1)
     });
 }
 
-function fixRandomLink(historyList)
+function fixRandomLink(historyList, favouritesList)
 {
+    var list = historyList.concat(favouritesList);
     $.getJSON("http://xkcd.com/info.0.json", function (latest)
     {
         const latestId = latest["num"];
@@ -317,7 +324,7 @@ function fixRandomLink(historyList)
         while (isNew)
         {
             var random = getRndInteger(1,latestId);
-            if (!has(historyList, random) && !(random == 404))
+            if (!has(list, random) && !(random == 404))
             {
                 document.getElementById('random').setAttribute('href', 'http://xkcd.com/' + random + '/');
                 isNew = false;
@@ -415,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function ()
 
     StorageAreaSync.get(null, function (syncData)
     {
-        fixRandomLink(syncData['history']);
+        fixRandomLink(syncData['history'], syncData['favourites']);
 
         for (var i = 0; i < syncData['favourites'].length; i++)
         {

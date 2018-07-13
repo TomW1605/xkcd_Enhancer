@@ -48,3 +48,43 @@
 .deleteButton:hover, .deleteButton:active{
     color: #9d5858;
 }
+
+.deleteButton {
+    background-color: #9d5858;
+    color: #FFF;
+    border: 1.5px solid #333;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 1.5px 12px;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 0 5px 0 gray;
+    -moz-box-shadow: 0 0 5px 0 gray;
+    -webkit-box-shadow: 0 0 5px 0 gray;
+    margin-top: -3px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.deleteButton:hover, .deleteButton:active{
+    background-color: #FFF;
+    color: #6E7B91;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.deleteButton:focus {
+    outline: none;
+}
+
+.disabledButton{
+    background-color: lightgray;
+    color: grey;
+    cursor: default;
+    box-shadow: 0 0 5px 0 gray;
+    -moz-box-shadow: 0 0 5px 0 gray;
+    -webkit-box-shadow: 0 0 5px 0 gray;
+}

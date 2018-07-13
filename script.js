@@ -1,4 +1,15 @@
-var badIDs = [1663, 1608, 1110, 506, 1525, 1193, 1506];
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+const badIDs = [1663, 1608, 1110, 506, 1525, 1193, 1506];
 
 const StorageAreaSync = chrome.storage.sync;
 //const StorageAreaLocal = chrome.storage.local;
@@ -19,30 +30,66 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-/*
-function removeFavouriteContent(deleteID)
-{
-    var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
-    id = id.replace(/^([\s\S]*)(com\/)/g, '');
-    id = id.replace(/(\/)([\s\S]*)$/g, '');
-    id = parseInt(id) + 1;
-    console.log(id);
-    console.log(deleteID);
-
-    if (id == deleteID)
-    {
-        document.getElementById('addFavourite').removeAttribute('disabled');
-        document.getElementById('addFavourite').firstChild.data = 'Add this comic to favourites'
-    }
-}
-/**/
-
 var link;
 link = document.createElement("link");
 link.href = chrome.extension.getURL("fix.css");
 link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
+
+function toggleFavourite()
+{
+    var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
+    id = id.replace(/^([\s\S]*)(com\/)/g, '');
+    id = id.replace(/(\/)([\s\S]*)$/g, '');
+    id = parseInt(id) + 1;
+
+    StorageAreaSync.get(null, function (syncData)
+    {
+        console.log('toggle');
+        var toggle = document.getElementById('toggleFavourite');
+        if (syncData['favourites'])
+        {
+            var favouritesList = [];
+            favouritesList = favouritesList.concat(syncData['favourites']);
+
+            if (has(favouritesList, id))
+            {
+                console.log('remove');
+                favouritesList.remove(id);
+                console.log(favouritesList);
+                StorageAreaSync.set({'favourites': favouritesList});
+                toggle.setAttribute('class', 'button');
+                toggle.firstChild.data = 'Add this comic to favourites';
+            }
+            else if (favouritesList.length == 1637)
+            {
+                console.log('too many');
+                toggle.setAttribute('class', 'disabledButton');
+                toggle.firstChild.data = 'Too many favourites';
+                alert("You have added too many favourites.The max is 1637. " +
+                    "This is due to the size limit on chrome sync storage. " +
+                    "If you want to add more please remove some old ones first. " +
+                    "If this is a problem please contact the developer at xkcd.Enhancer@gmail.com");
+            }
+            else
+            {
+                console.log('add');
+                toggle.setAttribute('class', 'deleteButton');
+                toggle.firstChild.data = 'Remove this comic from favourites';
+                favouritesList.push(id);
+                console.log(favouritesList);
+                StorageAreaSync.set({'favourites': favouritesList});
+            }
+        }
+        else
+        {
+            StorageAreaSync.set({'favourites': [id]});
+            toggle.setAttribute('class', 'deleteButton');
+            toggle.firstChild.data = 'Remove this comic from favourites';
+        }
+    });
+}
 
 StorageAreaSync.get(null, function (syncData)
 {
@@ -76,6 +123,7 @@ StorageAreaSync.get(null, function (syncData)
 
         if (fixRandom)
         {
+            var list = historyList.concat(syncData['favourites']);
             $.getJSON("/info.0.json", function (latest)
             {
                 const latestId = latest["num"];
@@ -84,7 +132,7 @@ StorageAreaSync.get(null, function (syncData)
                 while (isNew)
                 {
                     var random = getRndInteger(1,latestId);
-                    if (!has(historyList, random) && !(random == 404))
+                    if (!has(list, random) && !(random == 404))
                     {
                         document.querySelectorAll(".comicNav")[0].children[2].children[0].href = '/' + random + '/';
                         document.querySelectorAll(".comicNav")[1].children[2].children[0].href = '/' + random + '/';
@@ -116,40 +164,6 @@ StorageAreaSync.get(null, function (syncData)
     console.log(name);
 
     randomFix(fixRandom, id);
-
-    function addFavourite()
-    {
-        if (syncData['favourites'])
-        {
-            if (syncData['favourites'].length == 1637)
-            {
-                document.getElementById('addFavourite').setAttribute('disabled', '');
-                document.getElementById('addFavourite').firstChild.data = 'Too many favourites';
-                alert("You have added too many favourites.The max is 1637. " +
-                    "This is due to the size limit on chrome sync storage. " +
-                    "If you want to add more please remove some old ones first. " +
-                    "If this is a problem please contact the developer at xkcd.Enhancer@gmail.com");
-            }
-            else
-            {
-                var favouritesList = [];
-                favouritesList = favouritesList.concat(syncData['favourites']);
-                if (!has(favouritesList, id))
-                {
-                    favouritesList.push(id);
-                    StorageAreaSync.set({'favourites': favouritesList});
-                }
-                document.getElementById('addFavourite').setAttribute('disabled', '');
-                document.getElementById('addFavourite').firstChild.data = 'Added';
-            }
-        }
-        else
-        {
-            StorageAreaSync.set({'favourites': [id]});
-            document.getElementById('addFavourite').setAttribute('disabled', '');
-            document.getElementById('addFavourite').firstChild.data = 'Added';
-        }
-    }
 
     function checkNav(e)
     {
@@ -186,8 +200,7 @@ StorageAreaSync.get(null, function (syncData)
             }
             else if (e.keyCode == '70')
             {
-                console.log("added1");
-                addFavourite();
+                toggleFavourite();
             }
         }
         else
@@ -216,8 +229,7 @@ StorageAreaSync.get(null, function (syncData)
             }
             else if (e.keyCode == '70')
             {
-                console.log("added2");
-                addFavourite();
+                toggleFavourite();
             }
         }
     }
@@ -310,11 +322,15 @@ StorageAreaSync.get(null, function (syncData)
     {
         if (has(syncData['favourites'], id))
         {
-            favouritesButton = '<button class="button" disabled/>This comic is already in your favourites</button><br>';
+            favouritesButton = '<button class="deleteButton" id="toggleFavourite"/>Remove this comic from favourites</button><br>';
+        }
+        else if (syncData['favourites'].length == 1637)
+        {
+            favouritesButton = '<button class="disabledButton" id="toggleFavourite"/>Too many favourites</button><br>';
         }
         else
         {
-            favouritesButton = '<button class="button" id="addFavourite"/>Add this comic to favourites</button><br>';
+            favouritesButton = '<button class="button" id="toggleFavourite"/>Add this comic to favourites</button><br>';
         }
     }
 
@@ -339,7 +355,5 @@ StorageAreaSync.get(null, function (syncData)
 
     document.getElementById('middleContainer').lastElementChild.outerHTML = html;
 
-    console.log("added3");
-    document.getElementById('addFavourite').addEventListener('click', addFavourite);
-    //});
+    document.getElementById('toggleFavourite').addEventListener('click', toggleFavourite);
 });
