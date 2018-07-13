@@ -89,7 +89,7 @@ StorageAreaSync.get(null, function (syncData)
     }
     catch (e)
     {
-        console.log('couldn\'t access web server');
+        console.log("couldn't access web server");
         try
         {
             comicList = [];
@@ -118,7 +118,7 @@ StorageAreaSync.get(null, function (syncData)
         }
         catch (e)
         {
-            console.log('couldn\'t access dan\'s web server');
+            console.log("couldn't access dan\'s web server");
             comicList = [];
             comicListText = JSON.parse($.ajax({
                 url: chrome.extension.getURL("comicList.json"),

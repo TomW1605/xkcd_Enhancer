@@ -1,3 +1,14 @@
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
 const StorageAreaSync = chrome.storage.sync;
 const StorageAreaLocal = chrome.storage.local;
 
@@ -280,20 +291,18 @@ function openAllFavourites()
     });
 }
 
-function removeFavourites(data)
+function removeFavourites(data1)
 {
-    console.log(data);
-    var index = parseInt(data['currentTarget']['attributes'][0]['nodeValue'].replace('deleteButton', ''));
+    var id = data1['data'];
+    console.log(id);
 
-    document.getElementById('favourites').removeChild(document.getElementById('favouriteLink' + index));
-    document.getElementById('favourites').removeChild(document.getElementById('deleteButton' + index));
-    document.getElementById('favourites').removeChild(document.getElementById('favouriteBreak' + index));
+    document.getElementById('favourites').removeChild(document.getElementById(id));
 
     StorageAreaSync.get(null, function (data)
     {
         var favouritesList = [];
         favouritesList = favouritesList.concat(data['favourites']);
-        favouritesList.splice(index, 1);
+        favouritesList.remove(id);
         StorageAreaSync.set({'favourites': favouritesList});
     });
 }
@@ -315,22 +324,6 @@ function fixRandomLink(historyList)
             }
         }
     });
-}
-
-function addFavouriteLinks(list)
-{
-    for (var i = 0; i < list['favourites'].length; i++)
-    {
-        $.getJSON("http://xkcd.com/" + list['favourites'][i] + "/info.0.json", function (data)
-        {
-            var id = data["num"];
-            var name = data["title"];
-            var para = document.createElement("div");
-            document.getElementById('favourites').appendChild(para);
-
-            document.getElementById('favourites').lastElementChild.outerHTML = '<button id="deleteButton' + i + '" class="button deleteButton" title="Remove comic \'' + id + ': ' + name + '\' from your favourites">&#9003;</button><a id="favouriteLink' + i + '" title="' + id + ': ' + name + '" href="http://xkcd.com/' + id + '/" target="_blank" class="favouritesLinks">' + id + ': ' + name + '</a><br id="favouriteBreak' + i + '">';
-        });
-    }
 }
 
 document.addEventListener('DOMContentLoaded', function ()
@@ -420,17 +413,31 @@ document.addEventListener('DOMContentLoaded', function ()
     /*document.getElementById('newBadge').addEventListener('change', newBadgeToggled);
     document.getElementById('newNotification').addEventListener('change', newNotificationToggled);*/
 
-    StorageAreaSync.get(null, function (data)
+    StorageAreaSync.get(null, function (syncData)
     {
-        fixRandomLink(data['history']);
-    });
+        fixRandomLink(syncData['history']);
 
-    StorageAreaSync.get(null, function (data)
-    {
-        addFavouriteLinks(data);
-        for (var i = 0; i < data['favourites'].length; i++)
+        for (var i = 0; i < syncData['favourites'].length; i++)
         {
-            $('#deleteButton' + i).click(removeFavourites);
+            var id = syncData['favourites'][i];
+            var element = document.createElement("li");
+            element.id = id.toString();
+            $('#favourites').append(element);
         }
+
+        for (var j = 0; j < syncData['favourites'].length; j++)
+        {
+            $.getJSON("http://xkcd.com/" + syncData['favourites'][j] + "/info.0.json", function (data)
+            {
+                var id = data["num"];
+                var name = data["title"];
+                $('#'+id).html('<button id="deleteButton" class="button deleteButton" title="Remove comic \'' + id + ': ' + name + '\' from your favourites">&#9003;</button><a id="favouriteLink" title="' + id + ': ' + name + '" href="http://xkcd.com/' + id + '/" target="_blank" class="favouritesLinks">' + id + ': ' + name + '</a>');
+                $('#'+id+' > #deleteButton').click(id, removeFavourites);
+            });
+        }
+        //for (var i = 0; i < data['favourites'].length; i++)
+        //{
+            //$('#deleteButton' + i).click(removeFavourites);
+        //}
     });
 });
