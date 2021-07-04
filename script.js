@@ -95,6 +95,11 @@ StorageAreaSync.get(null, function (syncData)
 {
     //StorageAreaLocal.get(null, function (localData) {
 
+    if (!syncData['favourites'])
+    {
+        StorageAreaSync.set({'favourites': []});
+    }
+
     function randomFix(fixRandom, id)
     {
         if (!syncData['history'])
