@@ -186,17 +186,17 @@ StorageAreaSync.get(null, function (syncData)
                 //prev
                 self.location = comicNav[0].children[1].children[0].href
             }
+            else if (e.keyCode == '82' || e.keyCode == '32')
+            {
+                //rand
+                e.preventDefault();
+                self.location = comicNav[0].children[2].children[0].href;
+            }
             else if (e.keyCode == '78')
             {
                 //next
                 self.location = comicNav[0].children[3].children[0].href;
             }
-            else if (e.keyCode == '32' || e.keyCode == '82')
-            {
-                //rand
-                e.preventDefault();
-                self.location = comicNav[0].children[2].children[0].href;
-            }
             else if (e.keyCode == '69')
             {
                 //explain
@@ -205,44 +205,34 @@ StorageAreaSync.get(null, function (syncData)
             }
             else if (e.keyCode == '70')
             {
+                //favourite
                 toggleFavourite();
             }
         }
-        else
+
+        if (arrowNavigation && id != 1608)
         {
-            if (e.keyCode == '37' || e.keyCode == '78')
-            {
-                //next
-                self.location = comicNav[0].children[1].children[0].href
-            }
-            else if (e.keyCode == '39' || e.keyCode == '80')
+
+            if (e.keyCode == '37')
             {
                 //prev
-                self.location = comicNav[0].children[3].children[0].href;
+                self.location = comicNav[0].children[1].children[0].href
             }
-            else if (e.keyCode == '38' || e.keyCode == '32' || e.keyCode == '82')
+            else if (e.keyCode == '38')
             {
                 e.preventDefault();
                 //rand
                 self.location = comicNav[0].children[2].children[0].href;
             }
-            else if (e.keyCode == '69')
+            else if (e.keyCode == '39')
             {
-                //explain
-                win = window.open('http://www.explainxkcd.com/wiki/index.php/' + id, '_blank');
-                win.focus();
-            }
-            else if (e.keyCode == '70')
-            {
-                toggleFavourite();
+                //next
+                self.location = comicNav[0].children[3].children[0].href;
             }
         }
     }
 
-    if (keyboardNavigation)
-    {
-        document.onkeydown = checkNav;
-    }
+    document.onkeydown = checkNav;
 
     if (titleTextMover)
     {

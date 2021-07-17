@@ -59,10 +59,6 @@ function retrieve(name)
         if (!data[name])
         {
             document.getElementById(name).removeAttribute("checked");
-            if (name == 'keyboardNavigation')
-            {
-                document.getElementById('arrowNavigation').disabled = true;
-            }
         }
     });
 }
@@ -208,14 +204,12 @@ function keyboardNavigationToggled()
     {
         console.log('<br>keyboardNavigation: off');
         document.getElementById('keyboardNavigation').removeAttribute("checked");
-        document.getElementById('arrowNavigation').disabled = true;
         keyboardNavigation = false;
     }
     else
     {
         console.log('<br>keyboardNavigation: on');
         document.getElementById('keyboardNavigation').setAttribute("checked", "");
-        document.getElementById('arrowNavigation').disabled = false;
         keyboardNavigation = true;
     }
     StorageAreaSync.set({'keyboardNavigation': keyboardNavigation});
@@ -319,15 +313,15 @@ function fixRandomLink(historyList, favouritesList)
     $.getJSON("http://xkcd.com/info.0.json", function (latest)
     {
         const latestId = latest["num"];
-        var isNew = true;
+        var isNew = false;
 
-        while (isNew)
+        while (!isNew)
         {
             var random = getRndInteger(1,latestId);
             if (!has(list, random) && !(random == 404))
             {
                 document.getElementById('random').setAttribute('href', 'http://xkcd.com/' + random + '/');
-                isNew = false;
+                isNew = true;
             }
         }
     });
