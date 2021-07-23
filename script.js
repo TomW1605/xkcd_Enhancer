@@ -179,7 +179,7 @@ StorageAreaSync.get(null, function (syncData)
             return;
         }
         var win;
-        if (id == 1608 || !arrowNavigation)
+        if (keyboardNavigation)
         {
             if (e.keyCode == '80')
             {
