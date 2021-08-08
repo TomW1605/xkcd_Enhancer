@@ -9,7 +9,7 @@ Array.prototype.remove = function() {
     return this;
 };
 
-const badIDs = [1663, 1608, 1110, 506, 1525, 1193, 1506];
+const badIDs = [1663, 1608, 1110, 506, 1525, 1193, 1506, 2288];
 
 const StorageAreaSync = chrome.storage.sync;
 //const StorageAreaLocal = chrome.storage.local;
@@ -149,14 +149,32 @@ StorageAreaSync.get(null, function (syncData)
     }
 
     var permanentLinkToggle = syncData['permanentLinkToggle'];
+    console.log("permanentLinkToggle: " + permanentLinkToggle);
+
     var imageLinkToggle = syncData['imageLinkToggle'];
+    console.log("imageLinkToggle: " + imageLinkToggle);
+
     var explainLinkToggle = syncData['explainLinkToggle'];
+    console.log("explainLinkToggle: " + explainLinkToggle);
+
     var Link3DToggle = syncData['Link3DToggle'];
+    console.log("Link3DToggle: " + Link3DToggle);
+
     var titleTextMover = syncData['titleTextMover'];
+    console.log("titleTextMover: " + titleTextMover);
+
     var keyboardNavigation = syncData['keyboardNavigation'];
+    console.log("keyboardNavigation: " + keyboardNavigation);
+
     var arrowNavigation = syncData['arrowNavigation'];
+    console.log("arrowNavigation: " + arrowNavigation);
+
     var fixRandom = syncData['fixRandom'];
+    console.log("fixRandom: " + fixRandom);
+
     var favouritesButtonToggle = syncData['favouritesButtonToggle'];
+    console.log("favouritesButtonToggle: " + favouritesButtonToggle);
+
 
     var id = document.querySelectorAll(".comicNav")[0].children[1].children[0].href;
     id = id.replace(/^([\s\S]*)(com\/)/g, '');
@@ -286,7 +304,9 @@ StorageAreaSync.get(null, function (syncData)
     var imageURL = html;
     imageURL = imageURL.replace(/^([\s\S]*)(hotlinking\/embedding\): )/g, '');
     imageURL = imageURL.replace(/(<div id="transcript")([\s\S]*)$/g, '');
-    //console.log(imageURL);
+    imageURL = imageURL.replace(/^<a .*">/g, '');
+    imageURL = imageURL.replace(/<\/a>\n\n$/g, '');
+    console.log(imageURL);
 
     var permanentLink = 'Permanent link to this comic: http://xkcd.com/' + id + '/';
     if (permanentLinkToggle)
@@ -342,9 +362,12 @@ StorageAreaSync.get(null, function (syncData)
     }
 
     theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
+    theDiv.removeChild(theDiv.getElementsByTagName('a').item(10));
     theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
+    theDiv.removeChild(theDiv.getElementsByTagName('a').item(10));
 
     html = favouritesButton + permanentLink + imageLink + explainLink + Link3D;
+    //console.log(html);
     var para = document.createElement("div");
     theDiv.appendChild(para);
 

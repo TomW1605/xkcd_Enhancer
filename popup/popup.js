@@ -55,9 +55,10 @@ function retrieve(name)
 {
     StorageAreaSync.get(null, function (data)
     {
-        console.log(data[name]);
+        console.log(name + ": " + data[name]);
         if (!data[name])
         {
+            console.log(name + ": " + data[name]);
             document.getElementById(name).removeAttribute("checked");
         }
     });
