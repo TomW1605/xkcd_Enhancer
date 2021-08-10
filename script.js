@@ -30,6 +30,11 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
+function removeLast(list) {
+    var last = list[list.length - 1];
+    last.parentNode.removeChild(last);
+}
+
 var link;
 link = document.createElement("link");
 link.href = chrome.extension.getURL("fix.css");
@@ -337,15 +342,15 @@ StorageAreaSync.get(null, function (syncData)
     {
         if (has(syncData['favourites'], id))
         {
-            favouritesButton = '<button class="deleteButton" id="toggleFavourite"/>Remove this comic from favourites</button><br>';
+            favouritesButton = '<button class="deleteButton" id="toggleFavourite"/>Remove this comic from favourites</button><br><br>';
         }
         else if (syncData['favourites'].length == 1637)
         {
-            favouritesButton = '<button class="disabledButton" id="toggleFavourite"/>Too many favourites</button><br>';
+            favouritesButton = '<button class="disabledButton" id="toggleFavourite"/>Too many favourites</button><br><br>';
         }
         else
         {
-            favouritesButton = '<button class="button" id="toggleFavourite"/>Add this comic to favourites</button><br>';
+            favouritesButton = '<button class="button" id="toggleFavourite"/>Add this comic to favourites</button><br><br>';
         }
     }
 
@@ -361,10 +366,11 @@ StorageAreaSync.get(null, function (syncData)
         child = nextChild;
     }
 
-    theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
-    theDiv.removeChild(theDiv.getElementsByTagName('a').item(10));
-    theDiv.removeChild(theDiv.getElementsByTagName('br').item(0));
-    theDiv.removeChild(theDiv.getElementsByTagName('a').item(10));
+    removeLast(theDiv.getElementsByTagName('a'))
+    removeLast(theDiv.getElementsByTagName('a'))
+    removeLast(theDiv.getElementsByTagName('br'))
+    removeLast(theDiv.getElementsByTagName('br'))
+
 
     html = favouritesButton + permanentLink + imageLink + explainLink + Link3D;
     //console.log(html);
