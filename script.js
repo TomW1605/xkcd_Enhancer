@@ -10,6 +10,7 @@ Array.prototype.remove = function() {
 };
 
 const badIDs = [1663, 1608, 1110, 506, 1525, 1193, 1506, 2288];
+const noArrowNav = [1608, 2712, 2765]
 
 const StorageAreaSync = chrome.storage.sync;
 //const StorageAreaLocal = chrome.storage.local;
@@ -233,7 +234,7 @@ StorageAreaSync.get(null, function (syncData)
             }
         }
 
-        if (arrowNavigation && id != 1608)
+        if (arrowNavigation && !(noArrowNav.indexOf(id) >= 0))
         {
 
             if (e.keyCode == '37')
