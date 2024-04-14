@@ -1,5 +1,5 @@
 {
-  "noKeyboardNav": [
+  "badHTML": [
     1663,
     1608,
     1110,
@@ -7,7 +7,9 @@
     1525,
     1193,
     1506,
-    2288,
+    2288
+  ],
+  "noKeyboardNav": [
     2916
   ],
   "noArrowNav": [
