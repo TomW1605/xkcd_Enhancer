@@ -1,21 +1,25 @@
 {
-   "manifest_version": 2,
+   "manifest_version": 3,
    "name": "xkcd Enhancer",
    "short_name": "xkcd Enhancer",
-   "version": "8.9.2",
+   "version": "9",
    "options_ui": {
       "page": "options/options.html",
-      "chrome_style": false,
       "open_in_tab": true
    },
    "content_scripts": [ {
-      "matches": ["http://xkcd.com/*", "http://*.xkcd.com/*", "https://xkcd.com/*", "https://*.xkcd.com/*"],
+      "matches": [
+         "http://xkcd.com/*",
+         "http://*.xkcd.com/*",
+         "https://xkcd.com/*",
+         "https://*.xkcd.com/*"
+      ],
       "css": ["fix.css"],
       "js": ["jquery.min.js", "script.js"]
    } ],
    "background": {
-      "scripts": ["background.js"],
-      "persistent": false
+      "service_worker": "service_worker.js",
+      "type": "module"
    },
    "description": "This small extension will revolutionise your xkcd viewing experience.",
    "icons": {
@@ -24,12 +28,27 @@
    },
    "permissions": [
       "storage",
-      "downloads"
+      "downloads",
+      "alarms"
    ],
-   "browser_action": {
+   "action": {
      "default_icon": "images/icon.png",
      "default_title": "xkcd Enhancer",
      "default_popup": "popup/popup.html"
    },
-   "web_accessible_resources": ["fix.css", "script.js", "jquery.min.js"]
+   "web_accessible_resources": [
+      {
+         "resources": [
+            "fix.css",
+            "script.js",
+            "jquery.min.js"
+         ],
+         "matches": [
+            "http://xkcd.com/*",
+            "http://*.xkcd.com/*",
+            "https://xkcd.com/*",
+            "https://*.xkcd.com/*"
+         ]
+      }
+   ]
 }

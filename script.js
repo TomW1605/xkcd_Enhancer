@@ -38,7 +38,7 @@ function removeLast(list) {
 
 var link;
 link = document.createElement("link");
-link.href = chrome.extension.getURL("fix.css");
+link.href = chrome.runtime.getURL("fix.css");
 link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
