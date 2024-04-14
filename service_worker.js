@@ -11,7 +11,7 @@ const updateJson = async () => {
     });
 };
 
-const ALARM_NAME = 'update_json';
+const ALARM_NAME = 'updateJson';
 
 // Check if alarm exists to avoid resetting the timer.
 // The alarm might be removed when the browser session restarts.
@@ -20,7 +20,7 @@ async function createAlarm() {
     if (typeof alarm === 'undefined') {
         chrome.alarms.create(ALARM_NAME, {
             delayInMinutes: 1,
-            periodInMinutes: 1
+            periodInMinutes: 720
         });
         updateJson();
     }
