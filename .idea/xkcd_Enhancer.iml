@@ -8,5 +8,6 @@
     <orderEntry type="library" name="jquery-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="firefox-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="moment-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="@types/chrome" level="application" />
   </component>
 </module>
